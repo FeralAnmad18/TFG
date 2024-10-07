@@ -1,0 +1,57 @@
+html{
+    font-family: "Roboto Mono", sans-serif;
+   
+}
+
+.container {
+    display: flex; /* Magic starts here, turning your container into a flex container */
+    justify-content: center; /* This centers the child horizontally */
+    height: 1000vh; /* This will make sure your container is as tall as the entire viewport */
+    background-color: aqua;
+  }
+  .center {
+    width: 75%; /* Set any width you prefer */
+    height: 75%; /* And any height */
+  }
+
+  .cuerpo{
+    border-radius: 10px;
+    width: 100%; /* Set any width you prefer */
+    height: fit-content; /* And any height */
+    line-height: 140px;
+    color: #052135;
+    background-color: #dfe4e2;
+    box-shadow: 5px 5px 5px gray;
+  }
+
+.float_contenedor_right { 
+    float: left; 
+    width: 50%; 
+    background-color: #dfe4e2;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.float_contenedor_left { 
+    float: left; 
+    width: 50%; 
+    background-color: #dfe4e2;
+    border-radius: 10px 0px 0px 10px;
+}
+
+
+  .contenido_cabecera{
+    margin-left: 0%; 
+    height: 100px; 
+    width: 50%;
+    padding-left: 40px; 
+    font-size: 60px;
+    border-radius: 10px;
+  }
+
+  .contenido_opciones{
+    margin-left: 50%; 
+    height: 100px; 
+    width: 50%; 
+    height: 144px;
+    border-radius: 10px;
+  }

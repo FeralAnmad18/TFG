@@ -1,13 +1,11 @@
 html{
     font-family: "Roboto Mono", sans-serif;
-   
 }
 
 .container {
     display: flex; /* Magic starts here, turning your container into a flex container */
     justify-content: center; /* This centers the child horizontally */
-    height: 1000vh; /* This will make sure your container is as tall as the entire viewport */
-    background-color: aqua;
+    height: fit-content;
   }
   .center {
     width: 75%; /* Set any width you prefer */
@@ -18,7 +16,7 @@ html{
     border-radius: 10px;
     width: 100%; /* Set any width you prefer */
     height: fit-content; /* And any height */
-    line-height: 140px;
+    line-height: 30px;
     color: #052135;
     background-color: #dfe4e2;
     box-shadow: 5px 5px 5px gray;
@@ -27,19 +25,20 @@ html{
 .float_contenedor_right { 
     float: left; 
     width: 50%; 
-    background-color: #dfe4e2;
-    border-radius: 0px 10px 10px 0px;
+    background-image: linear-gradient(#e7e3e0, #c8cacb, #bec2c5);
+    border-radius: 0px 10px 0px 0px;
+    padding-bottom: 15px;
 }
 
 .float_contenedor_left { 
     float: left; 
     width: 50%; 
-    background-color: #dfe4e2;
-    border-radius: 10px 0px 0px 10px;
+    background-image: linear-gradient(#e7e3e0, #c8cacb, #bec2c5);
+    border-radius: 10px 0px 0px 0px;
+    padding-bottom: 15px;
 }
 
-
-  .contenido_cabecera{
+.contenido_cabecera{
     margin-left: 0%; 
     height: 100px; 
     width: 50%;
@@ -55,3 +54,58 @@ html{
     height: 144px;
     border-radius: 10px;
   }
+
+
+.login_icon{
+    margin-top: 5%;
+    width: 10%;
+    height: 10%;
+    border-radius: 50%;
+    margin-left: 43%;
+}
+
+.login_form_inputs{
+    margin-left: 38%;
+    justify-content: center; /* This centers the child horizontally */
+}
+
+form{
+    all: unset; 
+}
+
+input{
+    padding-left: 10em;
+}
+
+
+input[type=date]::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;
+    padding-left: 4.7em;
+}
+
+.submit_button {
+    width: 35%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #052135; /* Color principal de la web */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px; /* Bordes redondeados */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Suaviza los cambios en hover */
+}
+
+.submit_button:hover {
+    background-color: #30517d; /* Un tono más claro para hover */
+    transform: scale(1.05); /* Ligero zoom para efecto interactivo */
+}
+
+ul {
+    list-style-type: none;
+}
+
+a {
+    all: unset;
+}
+

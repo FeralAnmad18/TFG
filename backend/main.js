@@ -19,3 +19,20 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+
+let signUpForm = document.getElementById("signUpForm");
+
+signUpForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+  
+    let username = document.getElementById("user");
+    let password = document.getElementById("password");
+  
+    if (username.value == "" || password.value == "") {
+      username.style.borderColor = "red"
+    } else {
+      location("../index.hmtl")
+    }
+  });
+

@@ -15,11 +15,16 @@ html{
   .cuerpo{
     border-radius: 10px;
     width: 100%; /* Set any width you prefer */
-    height: fit-content; /* And any height */
+    height: max-content; /* And any height */
     line-height: 30px;
     color: #052135;
     background-color: #dfe4e2;
     box-shadow: 5px 5px 5px gray;
+    background-image: url('../images/fondo.webp'); /* Ruta de la imagen */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 80vh; /* Asegura que cubra toda la pantalla */
   }
 
 .float_contenedor_right { 
@@ -67,7 +72,83 @@ html{
 .login_form_inputs{
     margin-left: 38%;
     justify-content: center; /* This centers the child horizontally */
+    padding-bottom: 14%;
+    padding-top: 5%;
 }
+
+.signup_form_inputs{
+    margin-left: 38%;
+    justify-content: center; /* This centers the child horizontally */
+}
+
+.index_form_inputs{
+    margin-left: 14%;
+}
+
+/* Estilos para los inputs */
+.index_form_inputs, .login_form_inputs input[type="text"], 
+.index_form_inputs, .login_form_inputs input[type="password"] {
+    width: 31.55%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease-in-out;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+.signup_form_inputs input[type="text"], 
+.signup_form_inputs input[type="password"],
+.signup_form_inputs input[type="date"] {
+    width: 31.55%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease-in-out;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Estilos cuando el input está enfocado */
+.index_form_inputs input[type="text"]:focus, 
+.index_form_inputs input[type="password"]:focus {
+    outline: none;
+    border-color: #3f8cff;
+    box-shadow: 0 0 8px rgba(63, 140, 255, 0.5);
+    background-color: #fff;
+}
+
+/* Estilo para la etiqueta */
+.index_form_inputs label {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Botón de envío estilizado */
+.index_form_inputs input[type="submit"] {
+    width: 10%;
+    padding: 12px;
+    font-size: 16px;
+    font-family: 'Roboto Mono', monospace;
+    border-radius: 8px;
+    background-color: #3f8cff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    background-image: url('../images/search_icon.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
+}
+
+.index_form_inputs input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
 
 form{
     all: unset; 

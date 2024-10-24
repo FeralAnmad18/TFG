@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC54pL762-FiGlw64ptzSOBQItK-w3L4qI",
@@ -19,10 +19,11 @@ const auth = getAuth();
 const db = getFirestore(app)
 
 export class ManageAccount {
-  register(email, password) {
-    createUserWithEmailAndPassword(auth, email, password)
+  register(email, password,username,id) {
+    createUserWithEmailAndPassword(auth, email, password,username,id)
       .then((_) => {
-        window.location.href = "../index.html"; // Corrección de typo
+        this.insertUserData(email,username,id)
+        //window.location.href = "../index.html"; // Corrección de typo
         // Mostrar alerta de registro exitoso
         alert("Registro exitoso. Serás redirigido a la página de inicio de sesión.");
       })
@@ -57,11 +58,17 @@ export class ManageAccount {
       });
   }
 
-  insertUserData() {
-    setDoc(doc(db, "cities", "LA"), {
-        name: "Los Angeles",
-        state: "CA",
-        country: "USA"
+  insertUserData(email, username, id) {
+    addDoc(collection(db, "usuarios"), {
+        email: email,
+        id_usuario: id,
+        username: username
+      })
+      .then(() => {
+        console.log("Usuario añadido correctamente a Firestore");
+      })
+      .catch((error) => {
+        console.error("Error al añadir el usuario: ", error);
       });
   }
 }

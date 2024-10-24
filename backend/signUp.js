@@ -9,14 +9,22 @@ document.addEventListener("DOMContentLoaded", () => {
           e.preventDefault();
           let email = document.getElementById("email").value;
           let password = document.getElementById("password").value;
+          let username = document.getElementById("user").value;
           if (validarFormulario()) {
               const account = new ManageAccount();
-              account.register(email, password);
-              //window.location.href = "../index.html"; // Corrección de typo
+              account.register(email, password, username, generarID());
+              window.location.href = "../index.html";
           }
       });
   }
 }); 
+
+function generarID() {
+    const prefix = "MMS"; // Prefijo
+    const randomNumbers = Math.floor(100000 + Math.random() * 900000); // Generar un número aleatorio de 6 dígitos
+    const id = `${prefix}${randomNumbers}`; // Concatenar el prefijo con los 6 números
+    return id;
+  }
 
 
 function validarFormulario() {

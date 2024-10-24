@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC54pL762-FiGlw64ptzSOBQItK-w3L4qI",
@@ -15,6 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
+const db = getFirestore(app)
 
 export class ManageAccount {
   register(email, password) {
@@ -52,6 +54,14 @@ export class ManageAccount {
       })
       .catch((error) => {
         console.error(error.message);
+      });
+  }
+
+  insertUserData() {
+    setDoc(doc(db, "cities", "LA"), {
+        name: "Los Angeles",
+        state: "CA",
+        country: "USA"
       });
   }
 }

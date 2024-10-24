@@ -6,6 +6,7 @@
     <title>MoveMySeat login</title>
     <link rel="icon" type="image/x-icon" href="../images/logo.png">
     <link rel="stylesheet" type="text/css" href="../styles/styles.css" />
+    <script type="module" src="../backend/login.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
@@ -30,10 +31,10 @@
                 </div>
                 <img src="../images/login_icon.png" alt="login_icon" class="login_icon">
                 <div class="login_form_inputs">
-                    <form action="../index.html" method="post">
-                        <label for="user">Usuario</label>
+                    <form action="../index.html" method="post" id="loginForm">
+                        <label for="email">Correo electronico</label>
                         <br>
-                        <input type="text" name="user" id="user">
+                        <input type="text" name="email" id="email">
                         <br>
                         <label for="password">Contraseña</label>
                         <br>

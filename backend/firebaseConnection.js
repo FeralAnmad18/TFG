@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC54pL762-FiGlw64ptzSOBQItK-w3L4qI",
@@ -37,7 +37,7 @@ export class ManageAccount {
   authenticate(email, password) {
     signInWithEmailAndPassword(auth, email, password)
       .then((_) => {
-        window.location.href = "index.html";
+        window.location.href = "../index.html";
         // Mostrar alerta de inicio de sesión exitoso
         alert("Has iniciado sesión correctamente. Serás redirigido a la página principal.");
       })

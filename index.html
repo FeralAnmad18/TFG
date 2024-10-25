@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="../images/logo.png">
     <link rel="stylesheet" type="text/css" href="../styles/styles.css" />
     <script type="module" src="backend/firebaseConnection.js"></script>
+    <script type="module" src="backend/index.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
@@ -24,7 +25,8 @@
                     <div class="contenido_opciones">
                         <ul>
                             <br>
-                            <li><a href="html/login.html">Iniciar Sesion</a> / <a href="html/signUp.html">Regristrese</a></li>
+                            <li id="login"><a href="html/login.html">Iniciar Sesion</a> / <a href="html/signUp.html">Regristrese</a></li>
+                            <li id="logout"><a href="index.html" action="logout()">Cerrar Sesion</a></li>
                             <li>Contacto</li>
                         </ul>
                     </div>

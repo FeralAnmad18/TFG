@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (validarFormulario()) {
               const account = new ManageAccount();
               account.register(email, password, username, generarID());
-              window.location.href = "../index.html";
+              //window.location.href = "../index.html";
           }
       });
   }

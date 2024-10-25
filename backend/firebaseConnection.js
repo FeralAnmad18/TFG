@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC54pL762-FiGlw64ptzSOBQItK-w3L4qI",
@@ -23,7 +23,8 @@ export class ManageAccount {
     createUserWithEmailAndPassword(auth, email, password,username,id)
       .then((_) => {
         this.insertUserData(email,username,id)
-        //window.location.href = "../index.html"; // Corrección de typo
+        generateSession(username,id)
+        // // Corrección de typo
         // Mostrar alerta de registro exitoso
         alert("Registro exitoso. Serás redirigido a la página de inicio de sesión.");
       })
@@ -37,7 +38,8 @@ export class ManageAccount {
   authenticate(email, password) {
     signInWithEmailAndPassword(auth, email, password)
       .then((_) => {
-        window.location.href = "../index.html";
+        obtainUserData(email)
+        //window.location.href = "../index.html";
         // Mostrar alerta de inicio de sesión exitoso
         alert("Has iniciado sesión correctamente. Serás redirigido a la página principal.");
       })
@@ -59,16 +61,39 @@ export class ManageAccount {
   }
 
   insertUserData(email, username, id) {
-    addDoc(collection(db, "usuarios"), {
+    setDoc(doc(db, "usuarios", email), {
         email: email,
         id_usuario: id,
         username: username
       })
       .then(() => {
         console.log("Usuario añadido correctamente a Firestore");
+        window.location.href = "../index.html";
       })
       .catch((error) => {
         console.error("Error al añadir el usuario: ", error);
       });
   }
+}
+
+function generateSession(username, id){
+  sessionStorage.setItem("username",username)
+  sessionStorage.setItem("sessionID",id)
+}
+
+function obtainUserData(email){
+  const docRef = doc(db, "usuarios", email);
+
+  getDoc(docRef)
+    .then((docSnap) => {
+      if (docSnap.exists()) {  // Verificar si el documento existe
+        generateSession(docSnap.data().username,docSnap.data().id_usuario)
+        window.location.href = "../index.html";
+      } else {
+        console.log("No such document!");
+      }
+    })
+    .catch((error) => {
+      console.error("Error al obtener datos del usuario:", error);
+    });
 }

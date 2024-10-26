@@ -209,5 +209,8 @@ a {
     border-radius: 25%;
 }
 
+.not-allowed {
+    cursor: not-allowed;
+}
 
 

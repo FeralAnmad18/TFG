@@ -72,7 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function obtainFlightByIDandDate(id, date) {
     // Realizar la solicitud
-
+    // Obtén el elemento de carga
+    document.getElementById('loader').style.visibility = 'visible';
+    
+    // Muestra el loader
+    loader.style.display = 'block';
     let options = {
         method: 'GET',
         headers: {
@@ -93,8 +97,10 @@ function obtainFlightByIDandDate(id, date) {
         })
         .then(data => {
             // Procesa los datos de la API aquí
+            setTimeout(5000)
+            document.getElementById('loader').style.visibility = 'hidden';
             console.log("Datos de la API:", data);
-            fillFlagModal(data)
+            fillFlagModal(data, date)
         })
         .catch(error => {
             // Maneja cualquier error
@@ -141,10 +147,17 @@ function showModal(data) {
 }
 
 
-close_button.addEventListener("click", (e) => {
-    e.preventDefault();
-    closeModal();
-});
+const close_button = document.getElementById("close_button");
+
+// Verifica si el botón fue seleccionado correctamente
+if (close_button) {
+    close_button.addEventListener("click", (e) => {
+        e.preventDefault();
+        closeModal();
+    });
+} else {
+    console.error("close_button no fue encontrado en el DOM.");
+}
 
 select_date_btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -157,6 +170,8 @@ select_date_btn.addEventListener("click", (e) => {
 function closeModal() {
     const modal = document.getElementById("apiModal");
     modal.style.display = "none"; // Muestra el modal
+    const modalFlag = document.getElementById("flagModal");
+    modalFlag.style.display = "none"; // 
 }
 
 function fillDates(data) {
@@ -176,10 +191,52 @@ function fillDates(data) {
 
 }
 
-function fillFlagModal(data){
+const close_button_flag = document.getElementById("close_button_flag");
+
+// Verifica si el botón fue seleccionado correctamente
+if (close_button_flag) {
+    close_button_flag.addEventListener("click", (e) => {
+        e.preventDefault();
+        closeModal();
+    });
+} else {
+    console.error("close_button_flag no fue encontrado en el DOM.");
+}
+
+function fillFlagModal(data, fecha) {
     let arrFlag = document.getElementById("arrFlag")
     let deptFlag = document.getElementById("deptFlag")
+    let arrival = document.getElementById("arrival")
+    let origin = document.getElementById("origin")
+    let fechaText = document.getElementById("flightDate")
 
-    let flagURL = `https://flagcdn.com/w320/${country}.png`
+    let arrCountry = data[0].arrival.airport.countryCode.toLowerCase()
+    let deptCountry = data[0].departure.airport.countryCode.toLowerCase()
+
+    let arrflagURL = `https://flagcdn.com/w320/${arrCountry}.png`
+    let deptflagURL = `https://flagcdn.com/w320/${deptCountry}.png`
+
+    if (data[0].arrival.airport.municipalityName.length > 20) {
+        arrival.innerText = "Destino: " + data[0].arrival.airport.shortName
+    } else {
+        arrival.innerText = "Destino: " + data[0].arrival.airport.municipalityName
+    }
+
+    if (data[0].departure.airport.municipalityName.length > 20) {
+        origin.innerText = "Origen: " + data[0].departure.airport.shortName
+    } else {
+        origin.innerText = "Origen: " + data[0].departure.airport.municipalityName
+    }
+    arrFlag.src = arrflagURL
+    deptFlag.src = deptflagURL
+    deptFlag.style.width = "150px"
+    deptFlag.style.height = "100px"
+    arrFlag.style.width = "150px"
+    arrFlag.style.height = "100px"
+    fechaText.innerText = fecha
+
+    closeModal()
+    const modal = document.getElementById("flagModal");
+    modal.style.display = "flex"; // Muestra el modal
 }
 

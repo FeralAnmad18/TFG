@@ -46,6 +46,15 @@
                     <br>
                 </div>
 
+                <div class="loader-container" id="loader">
+                    <div class="loader">
+                        <svg class="plane-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path fill="#3498db"
+                                d="M21.72 13.06a.25.25 0 00-.25-.15h-7.24L8.73 21.8 6.88 20 11 14.56H5.65l-1.56 2.09-1.96-.5a.75.75 0 00-.9 1.01l1.96 5.5a.75.75 0 001.01.9l.5-.14L7 21.65v5.35h1.5v-5.29l8.76-8.3h7.24a.25.25 0 00.25-.25.22.22 0 00-.02-.07z" />
+                        </svg>
+                    </div>
+                </div>
+
                 <!-- Modal -->
                 <div id="apiModal" class="modal">
                     <div class="modal-content">
@@ -59,21 +68,26 @@
                 </div>
 
                 <div id="flagModal" class="modal">
-                    <span class="close-button" id="close_button" onclick="closeModal()">&times;</span>
-                    <div class="flag-container">
-                      <img id="deptFlag" src="https://flagcdn.com/w320/es.png" alt="Bandera de España" class="flag">
-                      <p>España</p>
+                    <div class="modal-content-flag">
+                        <span class="close-button" id="close_button_flag" onclick="closeModal()">&times;</span>
+                        <div class="flag-container">
+                            <img id="deptFlag" src="" class="flag">
+                            <p id="origin"></p>
+                        </div>
+
+                        <div class="arrow-container">
+                            <div class="flight">
+                                <p id="flightDate"></p>
+                            </div>
+                            <div class="arrow"></div>
+                        </div>
+
+                        <div class="flag-container">
+                            <img id="arrFlag" src="" class="flag">
+                            <p id="arrival"></p>
+                        </div>
                     </div>
-                  
-                    <div class="arrow">
-                      <span class="date-label">Fecha</span>
-                    </div>
-                  
-                    <div class="flag-container">
-                      <img id="arrFlag" src="https://flagcdn.com/w320/ma.png" alt="Bandera de Marruecos" class="flag">
-                      <p>Marruecos</p>
-                    </div>
-                  </div>
+                </div>
             </div>
         </div>
     </div>

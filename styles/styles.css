@@ -1,67 +1,76 @@
-html{
+html {
     font-family: "Roboto Mono", sans-serif;
 }
 
 .container {
-    display: flex; /* Magic starts here, turning your container into a flex container */
-    justify-content: center; /* This centers the child horizontally */
+    display: flex;
+    /* Magic starts here, turning your container into a flex container */
+    justify-content: center;
+    /* This centers the child horizontally */
     height: fit-content;
-  }
-  .center {
-    width: 75%; /* Set any width you prefer */
-    height: 75%; /* And any height */
-  }
+}
 
-  .cuerpo{
+.center {
+    width: 75%;
+    /* Set any width you prefer */
+    height: 75%;
+    /* And any height */
+}
+
+.cuerpo {
     border-radius: 10px;
-    width: 100%; /* Set any width you prefer */
-    height: max-content; /* And any height */
+    width: 100%;
+    /* Set any width you prefer */
+    height: max-content;
+    /* And any height */
     line-height: 30px;
     color: #052135;
     background-color: #dfe4e2;
     box-shadow: 5px 5px 5px gray;
-    background-image: url('../images/fondo.webp'); /* Ruta de la imagen */
+    background-image: url('../images/fondo.webp');
+    /* Ruta de la imagen */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 80vh; /* Asegura que cubra toda la pantalla */
-  }
+    min-height: 80vh;
+    /* Asegura que cubra toda la pantalla */
+}
 
-.float_contenedor_right { 
-    float: left; 
-    width: 50%; 
+.float_contenedor_right {
+    float: left;
+    width: 50%;
     background-image: linear-gradient(#e7e3e0, #c8cacb, #bec2c5);
     border-radius: 0px 10px 0px 0px;
     padding-bottom: 15px;
 }
 
-.float_contenedor_left { 
-    float: left; 
-    width: 50%; 
+.float_contenedor_left {
+    float: left;
+    width: 50%;
     background-image: linear-gradient(#e7e3e0, #c8cacb, #bec2c5);
     border-radius: 10px 0px 0px 0px;
     padding-bottom: 15px;
 }
 
-.contenido_cabecera{
-    margin-left: 0%; 
-    height: 100px; 
+.contenido_cabecera {
+    margin-left: 0%;
+    height: 100px;
     width: 50%;
-    padding-left: 40px; 
+    padding-left: 40px;
     font-size: 60px;
     border-radius: 10px;
-  }
+}
 
-  .contenido_opciones{
-    margin-left: 50%; 
-    height: 100px; 
-    width: 50%; 
+.contenido_opciones {
+    margin-left: 50%;
+    height: 100px;
+    width: 50%;
     height: 144px;
     border-radius: 10px;
-  }
+}
 
 
-.login_icon{
+.login_icon {
     margin-top: 5%;
     width: 10%;
     height: 10%;
@@ -69,25 +78,29 @@ html{
     margin-left: 43%;
 }
 
-.login_form_inputs{
+.login_form_inputs {
     margin-left: 38%;
-    justify-content: center; /* This centers the child horizontally */
+    justify-content: center;
+    /* This centers the child horizontally */
     padding-bottom: 14%;
     padding-top: 5%;
 }
 
-.signup_form_inputs{
+.signup_form_inputs {
     margin-left: 38%;
-    justify-content: center; /* This centers the child horizontally */
+    justify-content: center;
+    /* This centers the child horizontally */
 }
 
-.index_form_inputs{
+.index_form_inputs {
     margin-left: 14%;
 }
 
 /* Estilos para los inputs */
-.index_form_inputs, .login_form_inputs input[type="text"], 
-.index_form_inputs, .login_form_inputs input[type="password"] {
+.index_form_inputs,
+.login_form_inputs input[type="text"],
+.index_form_inputs,
+.login_form_inputs input[type="password"] {
     width: 31.55%;
     padding: 10px 15px;
     font-size: 16px;
@@ -95,9 +108,10 @@ html{
     border: 1px solid #ccc;
     background-color: #f9f9f9;
     transition: all 0.3s ease-in-out;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-.signup_form_inputs input[type="text"], 
+
+.signup_form_inputs input[type="text"],
 .signup_form_inputs input[type="password"],
 .signup_form_inputs input[type="date"] {
     width: 31.55%;
@@ -107,11 +121,11 @@ html{
     border: 1px solid #ccc;
     background-color: #f9f9f9;
     transition: all 0.3s ease-in-out;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilos cuando el input está enfocado */
-.index_form_inputs input[type="text"]:focus, 
+.index_form_inputs input[type="text"]:focus,
 .index_form_inputs input[type="password"]:focus {
     outline: none;
     border-color: #3f8cff;
@@ -150,11 +164,11 @@ html{
 }
 
 
-form{
-    all: unset; 
+form {
+    all: unset;
 }
 
-input{
+input {
     padding-left: 10em;
 }
 
@@ -168,18 +182,23 @@ input[type=date]::-webkit-calendar-picker-indicator {
     width: 35%;
     padding: 12px;
     margin-top: 20px;
-    background-color: #052135; /* Color principal de la web */
+    background-color: #052135;
+    /* Color principal de la web */
     color: white;
     font-size: 16px;
     border: none;
-    border-radius: 10px; /* Bordes redondeados */
+    border-radius: 10px;
+    /* Bordes redondeados */
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Suaviza los cambios en hover */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    /* Suaviza los cambios en hover */
 }
 
 .submit_button:hover {
-    background-color: #30517d; /* Un tono más claro para hover */
-    transform: scale(1.05); /* Ligero zoom para efecto interactivo */
+    background-color: #30517d;
+    /* Un tono más claro para hover */
+    transform: scale(1.05);
+    /* Ligero zoom para efecto interactivo */
 }
 
 ul {
@@ -192,19 +211,22 @@ a {
 
 .social-login-buttons {
     justify-content: center;
-    gap: 20px; /* Espacio entre los botones */
+    gap: 20px;
+    /* Espacio entre los botones */
     margin-top: 30px;
 }
 
 ::placeholder {
     color: red;
-    opacity: 1; /* Firefox */
-  }
+    opacity: 1;
+    /* Firefox */
+}
 
 .social-icon {
     width: 24px;
     height: 24px;
-    margin-right: 10px; /* Espacio entre icono y texto */
+    margin-right: 10px;
+    /* Espacio entre icono y texto */
     background-color: white;
     border-radius: 25%;
 }
@@ -216,18 +238,20 @@ a {
 
 /* Estilo general del modal */
 .modal {
-    display: none; /* Oculto por defecto */
+    display: none;
+    /* Oculto por defecto */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo semi-transparente */
     justify-content: center;
     align-items: center;
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
@@ -235,27 +259,130 @@ a {
     max-width: 500px;
     position: relative;
     text-align: center;
-  }
-  
-  .close-button {
+}
+
+.modal-content-flag {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: fit-content;
+    position: relative;
+    text-align: center;
+    display: flex;
+}
+
+.close-button {
     position: absolute;
     top: 10px;
     right: 10px;
     font-size: 24px;
     cursor: pointer;
-  }
+}
 
-  /* Animación opcional para el modal */
+/* Animación opcional para el modal */
 @keyframes fadeIn {
     from {
-      opacity: 0;
-      transform: scale(0.9);
+        opacity: 0;
+        transform: scale(0.9);
     }
+
     to {
-      opacity: 1;
-      transform: scale(1);
+        opacity: 1;
+        transform: scale(1);
     }
-  }
-  
+}
 
+.arrow {
+    width: 150px;
+    height: 1px;
+    background-color: black;
+    position: relative;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 25px;
+}
 
+.arrow:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -5px;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 10px solid black;
+}
+
+.flag {
+    width: 80px;
+    height: 50px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenedor del loader */
+.loader-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    visibility: hidden;
+}
+
+/* Loader de avión */
+.loader {
+    width: 100px;
+    height: 100px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 50%;
+    margin-left: 50%;
+}
+
+/* Icono de avión */
+.plane-icon {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    animation: rotatePlane 2s linear infinite;
+}
+
+/* Animación de giro del loader */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Animación de giro del avión */
+@keyframes rotatePlane {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
+}

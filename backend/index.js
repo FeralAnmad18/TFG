@@ -1,4 +1,6 @@
 import { ManageAccount } from '../backend/firebaseConnection.js';
+import { Constantes } from '../backend/constantes.js';
+import { DateManager } from './dateManager.js';
 
 const options = {
     method: 'GET',
@@ -62,19 +64,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 flightInput.placeholder = "Se necesita un id de vuelo";
                 flightInput.style.borderColor = "red";
             } else {
-                obtainFlightByID(flightInput.value)
+                obtainDatesByFlightByID(flightInput.value)
             }
         }
     });
 });
 
-function obtainFlightByID(id) {
+function obtainFlightByIDandDate(id, date) {
     // Realizar la solicitud
-    let flightNumber = "FR6791";
-    const url = `https://api.magicapi.dev/api/v1/aedbx/aerodatabox/flights/Number/${flightNumber}?withAircraftImage=false&withLocation=false`;
 
+    let options = {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'x-magicapi-key': Constantes.API_KEY_FLIGHT_BY_ID
+        }
+    };
 
-    flightNumber = id
+    const url = `https://api.magicapi.dev/api/v1/aedbx/aerodatabox/flights/Number/${id}/${date}?withAircraftImage=false&withLocation=false`;
+
     fetch(url, options)
         .then(response => {
             if (!response.ok) {
@@ -86,10 +94,92 @@ function obtainFlightByID(id) {
         .then(data => {
             // Procesa los datos de la API aquí
             console.log("Datos de la API:", data);
+            fillFlagModal(data)
         })
         .catch(error => {
             // Maneja cualquier error
             console.error("Error al hacer la solicitud:", error);
         });
+}
+
+function obtainDatesByFlightByID(id) {
+    // Realizar la solicitud
+    let options = {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'x-magicapi-key': Constantes.API_KEY_DATES_FLIGHT_BY_ID
+        }
+    };
+
+    const url = `https://api.magicapi.dev/api/v1/aedbx/aerodatabox/flights/Number/${id}/dates`;
+
+    fetch(url, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta de la API');
+            }
+
+            return response.json();
+        })
+        .then(data => {
+            // Procesa los datos de la API aquí
+            console.log("Datos de la API:", data[1]);
+            showModal(data);
+        })
+        .catch(error => {
+            // Maneja cualquier error
+            console.error("Error al hacer la solicitud:", error);
+        });
+}
+
+// Función para mostrar el modal
+function showModal(data) {
+    const modal = document.getElementById("apiModal");
+    fillDates(data)
+    modal.style.display = "flex"; // Muestra el modal
+}
+
+
+close_button.addEventListener("click", (e) => {
+    e.preventDefault();
+    closeModal();
+});
+
+select_date_btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    let flightInput = document.getElementById("flight");
+    let selectElement = document.getElementById("dates");
+    let date = selectElement.value;
+    obtainFlightByIDandDate(flightInput.value, date)
+});
+
+function closeModal() {
+    const modal = document.getElementById("apiModal");
+    modal.style.display = "none"; // Muestra el modal
+}
+
+function fillDates(data) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let dateCompare
+    var select = document.getElementById("dates");
+    for (let index = 0; index < data.length; index++) {
+        dateCompare = new Date(data[index]);
+        if (dateCompare > today) {
+            var option = document.createElement("option");
+            option.text = data[index];
+            option.value = data[index];
+            select.appendChild(option);
+        }
+    }
+
+}
+
+function fillFlagModal(data){
+    let arrFlag = document.getElementById("arrFlag")
+    let deptFlag = document.getElementById("deptFlag")
+
+    let flagURL = `https://flagcdn.com/w320/${country}.png`
 }
 

@@ -102,7 +102,7 @@ function obtainFlightByIDandDate(id, date) {
             setTimeout(5000)
             document.getElementById('loader').style.visibility = 'hidden';
             console.log("Datos de la API:", data);
-            fillFlagModal(data, date)
+            fillFlagModal(data, date, id)
         })
         .catch(error => {
             // Maneja cualquier error
@@ -230,7 +230,7 @@ if (myFlight_button) {
     console.error("notMyFlight_button no fue encontrado en el DOM.");
 }
 
-function fillFlagModal(data, fecha) {
+function fillFlagModal(data, fecha, id) {
     let arrFlag = document.getElementById("arrFlag")
     let deptFlag = document.getElementById("deptFlag")
     let arrival = document.getElementById("arrival")
@@ -264,7 +264,7 @@ function fillFlagModal(data, fecha) {
     fechaText.innerText = fecha
     airline.innerText = data[0].airline.name
 
-    sessionStorage.setItem("flightDate",fecha)
+    sessionStorage.setItem("id_vuelo",id)
 
     closeModal()
     const modal = document.getElementById("flagModal");

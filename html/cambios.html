@@ -6,15 +6,16 @@
     <title>MoveMySeat login</title>
     <link rel="icon" type="image/x-icon" href="../images/logo.png">
     <link rel="stylesheet" type="text/css" href="../styles/cambios.css" />
-    <script type="module" src="../backend/login.js"></script>
+    <script type="module" src="../backend/cambios.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="mensajeFlotante"></div>
     <div class="form-container">
         <div class="form-header">Intercambio de Asiento</div>
-        <form action="#" method="post">
+        <form action="../index.html" method="post" id="cambios_form">
             <div class="form-group">
                 <label for="current-seat">Asiento Actual</label>
                 <input type="text" id="current-seat" name="current-seat" placeholder="Ej: 12A" required>

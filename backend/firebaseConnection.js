@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+import { Constantes } from '../backend/constantes.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyC54pL762-FiGlw64ptzSOBQItK-w3L4qI",
@@ -74,6 +75,25 @@ export class ManageAccount {
         console.error("Error al añadir el usuario: ", error);
       });
   }
+
+  insertPeticionDeCambio(asiento_ofrecido, asiento_buscado) {
+    setDoc(doc(db, "peticion_cambio", sessionStorage.getItem("id_vuelo")), {
+        asiento_buscado: asiento_buscado,
+        asiento_ofrecido: asiento_ofrecido,
+        id_usuario: sessionStorage.getItem("username"),
+        id_vuelo: sessionStorage.getItem("id_vuelo")
+      })
+      .then(() => {
+        console.log("Peticion de cambio añadida correctamente a Firestore");
+        mostrarMensaje(Constantes.PETICION_CREADA);
+        setTimeout(() => {
+          window.location.href = "../index.html";
+        }, 5000);
+      })
+      .catch((error) => {
+        console.error("Error al añadir la peticion de cambio: ", error);
+      });
+  }
 }
 
 function generateSession(username, id){
@@ -96,4 +116,13 @@ function obtainUserData(email){
     .catch((error) => {
       console.error("Error al obtener datos del usuario:", error);
     });
+}
+
+function mostrarMensaje(textoMensaje) {
+  const mensaje = document.getElementById('mensajeFlotante');
+  mensaje.style.opacity = '1'; // Muestra el mensaje
+  mensaje.innerText = textoMensaje
+  setTimeout(() => {
+      mensaje.style.opacity = '0'; // Oculta el mensaje después de 5 segundos
+  }, 5000);
 }

@@ -66,18 +66,20 @@
                         <input type="button" value="Buscar vuelo" id="select_date_btn" class="submit_button">
                     </div>
                 </div>
-
+                <div id="mensajeFlotante"></div>
                 <div id="flagModal" class="modal">
                     <div class="modal-content-flag">
                         <span class="close-button" id="close_button_flag" onclick="closeModal()">&times;</span>
                         <div class="flag-container">
                             <img id="deptFlag" src="" class="flag">
                             <p id="origin"></p>
+                            <span type="button" id="myFlight" class="correct_flight_button">Es mi vuelo</span>
                         </div>
 
                         <div class="arrow-container">
                             <div class="flight">
                                 <p id="flightDate"></p>
+                                <p id="airline"></p>
                             </div>
                             <div class="arrow"></div>
                         </div>
@@ -85,6 +87,7 @@
                         <div class="flag-container">
                             <img id="arrFlag" src="" class="flag">
                             <p id="arrival"></p>
+                            <span type="button" id="notMyFlight" class="incorrect_flight_button">No es mi vuelo</span>
                         </div>
                     </div>
                 </div>

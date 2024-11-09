@@ -11,6 +11,8 @@ const options = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+    var one = "Test variable";
+
     let flightInput = document.getElementById("flight");
     let flightBtn = document.getElementById("flight_btn");
     let flightForm = document.getElementById("flightForm");
@@ -197,10 +199,35 @@ const close_button_flag = document.getElementById("close_button_flag");
 if (close_button_flag) {
     close_button_flag.addEventListener("click", (e) => {
         e.preventDefault();
-        closeModal();
+        
     });
 } else {
     console.error("close_button_flag no fue encontrado en el DOM.");
+}
+
+const notMyFlight_button = document.getElementById("notMyFlight");
+
+// Verifica si el botón fue seleccionado correctamente
+if (notMyFlight_button) {
+    notMyFlight_button.addEventListener("click", (e) => {
+        e.preventDefault();
+        mostrarMensaje(Constantes.DISCULPA);
+        closeModal();
+    });
+} else {
+    console.error("notMyFlight_button no fue encontrado en el DOM.");
+}
+
+const myFlight_button = document.getElementById("myFlight");
+
+// Verifica si el botón fue seleccionado correctamente
+if (myFlight_button) {
+    myFlight_button.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "html/cambios.html";
+    });
+} else {
+    console.error("notMyFlight_button no fue encontrado en el DOM.");
 }
 
 function fillFlagModal(data, fecha) {
@@ -209,6 +236,7 @@ function fillFlagModal(data, fecha) {
     let arrival = document.getElementById("arrival")
     let origin = document.getElementById("origin")
     let fechaText = document.getElementById("flightDate")
+    let airline = document.getElementById("airline")
 
     let arrCountry = data[0].arrival.airport.countryCode.toLowerCase()
     let deptCountry = data[0].departure.airport.countryCode.toLowerCase()
@@ -234,9 +262,22 @@ function fillFlagModal(data, fecha) {
     arrFlag.style.width = "150px"
     arrFlag.style.height = "100px"
     fechaText.innerText = fecha
+    airline.innerText = data[0].airline.name
+
+    sessionStorage.setItem("flightDate",fecha)
 
     closeModal()
     const modal = document.getElementById("flagModal");
     modal.style.display = "flex"; // Muestra el modal
+}
+
+function mostrarMensaje(textoMensaje) {
+    const mensaje = document.getElementById('mensajeFlotante');
+    mensaje.style.opacity = '1'; // Muestra el mensaje
+    mensaje.innerText = textoMensaje
+    setTimeout(() => {
+        mensaje.style.opacity = '0'; // Oculta el mensaje después de 5 segundos
+    }, 5000);
+    closeModal();
 }
 

@@ -2,16 +2,7 @@ import { ManageAccount } from '../backend/firebaseConnection.js';
 import { Constantes } from '../backend/constantes.js';
 import { DateManager } from './dateManager.js';
 
-const options = {
-    method: 'GET',
-    headers: {
-        'Accept': 'application/json',
-        'x-magicapi-key': 'cm1z3rse80004mf034y1fq0nl'
-    }
-};
-
 document.addEventListener("DOMContentLoaded", () => {
-    var one = "Test variable";
 
     let flightInput = document.getElementById("flight");
     let flightBtn = document.getElementById("flight_btn");
@@ -20,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let userSessionID = sessionStorage.getItem("sessionID")
     let login = document.getElementById("login")
     let logout = document.getElementById("logout")
+    let mis_cambios = document.getElementById("mis_cambios")
 
     if (userSessionID === null) {
         flightInput.disabled = true
@@ -28,7 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
         logout.style.display = "none"
         login.style.visibility = "visible"
         login.style.display = "block"
-
+        mis_cambios.style.visibility = "hidden"
+        mis_cambios.style.display = "none"
     } else {
         flightInput.disabled = false
         flightBtn.disabled = false
@@ -36,6 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
         logout.style.display = "block"
         login.style.visibility = "hidden"
         login.style.display = "none"
+        mis_cambios.style.visibility = "visible"
+        mis_cambios.style.display = "block"
     }
 
     logout.addEventListener('click', function () {
@@ -44,6 +39,15 @@ document.addEventListener("DOMContentLoaded", () => {
         account.signOut();
         sessionStorage.clear()
     })
+
+    if (mis_cambios) {
+        mis_cambios.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = "html/mis_cosas.html";
+        });
+    } else {
+        console.error("mis_cambios no fue encontrado en el DOM.");
+    }
 
     document.querySelectorAll("input:disabled").forEach((input) => {
         // Agrega un evento para cuando el mouse pase por encima del input

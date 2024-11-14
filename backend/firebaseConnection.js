@@ -20,6 +20,7 @@ const auth = getAuth();
 const db = getFirestore(app)
 
 export class ManageAccount {
+  
   register(email, password,username,id) {
     createUserWithEmailAndPassword(auth, email, password,username,id)
       .then((_) => {

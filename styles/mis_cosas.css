@@ -1,0 +1,64 @@
+.tabs {
+    display: block;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding-left: 35%;
+    height: fit-content;
+    width: fit-content;
+}
+.tab-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+.tab-button.active {
+    background-color: #ddd;
+    font-weight: bold;
+}
+.tab-content {
+    display: none;
+    text-align: center;
+}
+.tab-content.active {
+    display: block;
+}
+.vuelo-container {
+    border: 1px solid #000;
+    width: 250px;
+    text-align: center;
+    margin: 10px auto;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    background-color: #f1f1f1;
+}
+.flags-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin: 10px 0;
+}
+.flag {
+    width: 50px;
+    height: 30px;
+}
+.line {
+    width: 20px;
+    border-top: 1px solid #000;
+    transform: skewX(-20deg);
+}
+.details {
+    font-size: 14px;
+    margin: 5px 0;
+}
+.button {
+    background-color: #008000;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+.button:hover {
+    background-color: #006400;
+}

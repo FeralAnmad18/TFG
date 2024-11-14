@@ -1,113 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intercambio de Asiento - MoveMySeat</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <title>Ofertas de Vuelo</title>
     <style>
-        /* Reset y estilos básicos */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
         }
-
-        body {
+        .tab-button {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+        .tab-button.active {
+            background-color: #ddd;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+            text-align: center;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .vuelo-container {
+            border: 1px solid #000;
+            width: 250px;
+            text-align: center;
+            margin: 10px auto;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+        .flags-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f9;
+            gap: 5px;
+            margin: 10px 0;
         }
-
-        .form-container {
-            background-color: #ffffff;
-            padding: 2em;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
+        .flag {
+            width: 50px;
+            height: 30px;
         }
-
-        .form-header {
-            font-size: 1.5em;
-            font-weight: 500;
-            color: #333;
-            text-align: center;
-            margin-bottom: 1em;
+        .line {
+            width: 20px;
+            border-top: 1px solid #000;
+            transform: skewX(-20deg);
         }
-
-        .form-group {
-            margin-bottom: 1.5em;
+        .details {
+            font-size: 14px;
+            margin: 5px 0;
         }
-
-        label {
-            font-weight: 500;
-            color: #666;
-            margin-bottom: 0.5em;
-            display: block;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 0.8em;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1em;
-            color: #333;
-            background-color: #fafafa;
-            transition: border-color 0.3s ease;
-        }
-
-        input[type="text"]:focus {
-            border-color: #5a67d8;
-            outline: none;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 0.8em;
-            background-color: #5a67d8;
+        .button {
+            background-color: #008000;
+            color: white;
+            padding: 5px 10px;
             border: none;
-            border-radius: 5px;
-            font-size: 1em;
-            font-weight: 500;
-            color: #fff;
             cursor: pointer;
-            transition: background-color 0.3s ease;
         }
-
-        .submit-btn:hover {
-            background-color: #4c51bf;
-        }
-
-        .form-footer {
-            text-align: center;
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 1em;
+        .button:hover {
+            background-color: #006400;
         }
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <div class="form-header">Intercambio de Asiento</div>
-        <form action="#" method="post">
-            <div class="form-group">
-                <label for="current-seat">Asiento Actual</label>
-                <input type="text" id="current-seat" name="current-seat" placeholder="Ej: 12A" required>
-            </div>
-            <div class="form-group">
-                <label for="desired-seat">Asiento Deseado</label>
-                <input type="text" id="desired-seat" name="desired-seat" placeholder="Ej: 14C" required>
-            </div>
-            <button type="submit" class="submit-btn">Solicitar Intercambio</button>
-        </form>
-        <div class="form-footer">
-            MoveMySeat - Encuentra tu asiento ideal
-        </div>
-    </div>
+
+<div class="tabs">
+    <button class="tab-button active" onclick="showTab('my-offers')">Ofertas creadas por mí</button>
+    <button class="tab-button" onclick="showTab('received-offers')">Ofertas recibidas</button>
+</div>
+
+<div id="my-offers" class="tab-content active"></div>
+<div id="received-offers" class="tab-content"></div>
+
+<script>
+    function showTab(tabId) {
+        // Ocultar todos los contenidos de las pestañas y eliminar la clase 'active' de todos los botones
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-button').forEach(button => button.classList.remove('active'));
+
+        // Mostrar el contenido de la pestaña seleccionada y añadir la clase 'active' al botón seleccionado
+        document.getElementById(tabId).classList.add('active');
+        document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+    }
+
+    function createFlightComponent(busca, ofrece) {
+        // Crear el contenedor principal
+        const flightContainer = document.createElement("div");
+        flightContainer.classList.add("vuelo-container");
+
+        // Añadir el título
+        const title = document.createElement("h3");
+        title.textContent = "vuelo";
+        flightContainer.appendChild(title);
+
+        // Crear el contenedor de banderas
+        const flagsContainer = document.createElement("div");
+        flagsContainer.classList.add("flags-container");
+
+        // Añadir la primera bandera (España)
+        const flagSpain = document.createElement("img");
+        flagSpain.src = "https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg";
+        flagSpain.classList.add("flag");
+        flagsContainer.appendChild(flagSpain);
+
+        // Añadir la línea en diagonal
+        const line = document.createElement("div");
+        line.classList.add("line");
+        flagsContainer.appendChild(line);
+
+        // Añadir la segunda bandera (Marruecos)
+        const flagMorocco = document.createElement("img");
+        flagMorocco.src = "https://upload.wikimedia.org/wikipedia/commons/2/2c/Flag_of_Morocco.svg";
+        flagMorocco.classList.add("flag");
+        flagsContainer.appendChild(flagMorocco);
+
+        // Añadir el contenedor de banderas al contenedor principal
+        flightContainer.appendChild(flagsContainer);
+
+        // Añadir los detalles de "Busca" y "Ofrece"
+        const details = document.createElement("div");
+        details.classList.add("details");
+        details.innerHTML = `Busca: ${busca}<br>Ofrece: ${ofrece}`;
+        flightContainer.appendChild(details);
+
+        // Añadir el botón
+        const button = document.createElement("button");
+        button.classList.add("button");
+        button.textContent = "Proponer cambio";
+        flightContainer.appendChild(button);
+
+        return flightContainer;
+    }
+
+    // Datos para cada tipo de oferta
+    const myOffersData = [
+        { busca: "12A", ofrece: "14C" },
+        { busca: "15B", ofrece: "16D" },
+    ];
+    const receivedOffersData = [
+        { busca: "10A", ofrece: "12B" },
+        { busca: "9C", ofrece: "8A" },
+    ];
+
+</script>
+
 </body>
 </html>

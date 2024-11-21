@@ -9,8 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../styles/styles.css" />
     <link rel="stylesheet" type="text/css" href="../styles/mis_cosas.css" />
     <script type="module" src="backend/firebaseConnection.js"></script>
-    <script type="module" src="backend/index.js"></script>
-    <script type="module" src="../backend/cambios.js"></script>
+    <script type="module" src="../backend/mis_cosas.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
@@ -34,6 +33,7 @@
                                     href="html/signUp.html">Regristrese</a></li>
                             <li id="logout"><a href="index.html" action="logout()">Cerrar Sesion</a></li>
                             <li>Contacto</li>
+                            <li id="mis_cambios">Mis cambios</li>
                         </ul>
                     </div>
                 </div>
@@ -41,8 +41,10 @@
                 <div class="tabs">
                     <button class="tab-button" id="my-offers-btn">Ofertas creadas por mí</button>
                     <button class="tab-button" id="received-offers-btn" >Ofertas recibidas</button>
+                    <button class="tab-button" id="accepted-offers-btn" >Ofertas aceptadas</button>
                     <div id="my-offers" class="tab-content active"></div>
                     <div id="received-offers" class="tab-content"></div>
+                    <div id="accepted-offers" class="tab-content"></div>
                 </div>
             </div>
         </div>

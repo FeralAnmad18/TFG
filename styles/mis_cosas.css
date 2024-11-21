@@ -2,7 +2,7 @@
     display: block;
     justify-content: center;
     margin-bottom: 10px;
-    padding-left: 35%;
+    padding-left: 30%;
     height: fit-content;
     width: fit-content;
 }
@@ -61,4 +61,14 @@
 }
 .button:hover {
     background-color: #006400;
+}
+.cancel-button {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+.cancel-button:hover {
+    background-color: #d80000;
 }

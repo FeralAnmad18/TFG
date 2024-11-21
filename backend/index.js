@@ -269,6 +269,8 @@ function fillFlagModal(data, fecha, id) {
     airline.innerText = data[0].airline.name
 
     sessionStorage.setItem("id_vuelo",id)
+    sessionStorage.setItem("destino",arrCountry)
+    sessionStorage.setItem("origen",deptCountry)
 
     closeModal()
     const modal = document.getElementById("flagModal");

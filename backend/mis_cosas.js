@@ -1,4 +1,5 @@
 import { ManageAccount } from '../backend/firebaseConnection.js';
+import { Constantes } from '../backend/constantes.js';
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -45,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   logout.addEventListener('click', function () {
 
-    const account = new ManageAccount();
+
     account.signOut();
     sessionStorage.clear()
   })
@@ -68,6 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
           receivedOffersContainer.appendChild(flightComponent);
         })
       });
+      if (receivedOffersData[0].length < 1) {
+        mostrarMensaje(Constantes.NO_REQUESTED)
+      }
     });
 
   }
@@ -87,6 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
       });
+      if (myOffersData[0].length < 1) {
+        mostrarMensaje(Constantes.NO_PETICIONES)
+      }
     });
 
   }
@@ -104,6 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
           acceptedOffersContainer.appendChild(flightComponent);
         })
       });
+      if (acceptedOffersData[0].length < 1) {
+        mostrarMensaje(Constantes.NO_ACCEPTED)
+      }
     });
   }
 
@@ -130,6 +140,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const title = document.createElement("h3");
     title.textContent = vuelo.id_vuelo;
     flightContainer.appendChild(title);
+
+    const fecha = document.createElement("p");
+    fecha.textContent = `Fecha del vuelo: ${vuelo.fecha_vuelo}`;
+    flightContainer.appendChild(fecha);
 
     // Crear el contenedor de banderas
     const flagsContainer = document.createElement("div");
@@ -168,18 +182,57 @@ document.addEventListener("DOMContentLoaded", () => {
       case "my-offers-btn":
         button.classList.add("cancel-button");
         button.textContent = "Cancelar peticion";
-
+        button.id = vuelo.id
+        button.addEventListener("click", () => {
+          let result = account.cancelRequest(button.id);
+          if (result) {
+            mostrarMensaje(Constantes.ERROR);
+          } else {
+            mostrarMensaje(Constantes.PETICION_CANCELADA);
+          }
+          
+        })
         break;
       case "received-offers-btn":
         button.classList.add("button");
         button.textContent = "Aceptar cambio";
+        button.id = vuelo.id
+        button.addEventListener("click", () => {
+          let result = account.acceptRequest(button.id);
+          if (result) {
+            mostrarMensaje(Constantes.ERROR);
+          } else {
+            mostrarMensaje(Constantes.PETICION_ACEPTADA);
+          }
+          
+        })
         cancelButton.classList.add("cancel-button");
         cancelButton.textContent = "Rechazar cambio";
+        cancelButton.id = vuelo.id
+        cancelButton.addEventListener("click", () => {
+          let result = account.refuseRequest(cancelButton.id);
+          if (result) {
+            mostrarMensaje(Constantes.ERROR);
+          } else {
+            mostrarMensaje(Constantes.PETICION_RECHAZADA);
+          }
+          
+        })
         flightContainer.appendChild(cancelButton);
         break;
       case "accepted-offers-btn":
         button.classList.add("cancel-button");
         button.textContent = "Cancelar cambio";
+        button.id = vuelo.id
+        button.addEventListener("click", () => {
+          let result = account.cancelRequest(button.id);
+          if (result) {
+            mostrarMensaje(Constantes.ERROR);
+          } else {
+            mostrarMensaje(Constantes.PETICION_CANCELADA);
+          }
+          
+        })
         break;
     }
 
@@ -190,6 +243,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
+
+function mostrarMensaje(textoMensaje) {
+  const mensaje = document.getElementById('mensajeFlotante');
+  mensaje.style.opacity = '1'; // Muestra el mensaje
+  mensaje.innerText = textoMensaje
+  setTimeout(() => {
+      mensaje.style.opacity = '0'; // Oculta el mensaje después de 5 segundos
+  }, 5000);
+  closeModal();
+}
+
+function closeModal() {
+  const modal = document.getElementById("apiModal");
+  modal.style.display = "none"; // Muestra el modal
+  const modalFlag = document.getElementById("flagModal");
+  modalFlag.style.display = "none"; // 
+}
 
 
 

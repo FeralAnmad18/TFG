@@ -178,6 +178,10 @@ input[type=date]::-webkit-calendar-picker-indicator {
     padding-left: 4.7em;
 }
 
+input[type="checkbox"] + label {
+    font-size: 15px; /* Tamaño deseado */
+  }
+
 .submit_button {
     width: 35%;
     padding: 12px;
@@ -215,6 +219,22 @@ input[type=date]::-webkit-calendar-picker-indicator {
     padding: 12px;
     margin-top: 20px;
     background-color: red;
+    /* Color principal de la web */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    /* Bordes redondeados */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    /* Suaviza los cambios en hover */
+}
+
+.exists_flight_button {
+    width: fit-content;
+    padding: 7px;
+    margin-top: 20px;
+    background-color: #3f8cff;
     /* Color principal de la web */
     color: white;
     font-size: 16px;
@@ -271,14 +291,12 @@ a {
 /* Estilo general del modal */
 .modal {
     display: none;
-    /* Oculto por defecto */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Fondo semi-transparente */
     justify-content: center;
     align-items: center;
 }
@@ -419,8 +437,8 @@ a {
     }
 }
 
- /* Estilos para el mensaje flotante */
- #mensajeFlotante {
+/* Estilos para el mensaje flotante */
+#mensajeFlotante {
     position: fixed;
     top: 20px;
     left: 50%;
@@ -446,3 +464,16 @@ a {
     height: fit-content;
 }
 
+.button {
+    background-color: #3f8cff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+.button:hover {
+    background-color: #004bbb;
+}

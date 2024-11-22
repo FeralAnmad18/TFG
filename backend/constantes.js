@@ -4,7 +4,15 @@ export class Constantes {
     static API_KEY_DATES_FLIGHT_BY_ID = "cm2qesps70001k50345euznls";
     static DISCULPA = "Sentimos las molestias, esperemos que encuentre su vuelo en la siguiente búsqueda";
     static PETICION_CREADA = "Se ha creado la peticion de cambio. Sera redirigido a la pantalla de inicio";
-  
+    static PETICION_CANCELADA = "Se ha cancelado la peticion";
+    static PETICION_ACEPTADA = "Se ha aceptado la peticion";
+    static PETICION_RECHAZADA = "Se ha rechazado la peticion";
+    static ERROR = "Ha habido un error, disculpe las molestias";
+    static NO_PETICIONES = "Actualmente no hay peticiones creadas por ti"
+    static NO_REQUESTED = "Actualmente no hay peticiones pendientes de respuesta"
+    static NO_ACCEPTED = "Actualmente no hay peticiones aceptadas"
+    static NO_PETICIONES_INDEX = "Actualmente no hay peticiones con los datos proporcionados"
+
     // Método estático opcional para obtener las constantes (no es necesario, pero puede ser útil)
     static obtenerConstante(nombre) {
       return this[nombre];

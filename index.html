@@ -7,6 +7,7 @@
     <title>MoveMySeat login</title>
     <link rel="icon" type="image/x-icon" href="../images/logo.png">
     <link rel="stylesheet" type="text/css" href="../styles/styles.css" />
+    <link rel="stylesheet" type="text/css" href="../styles/existing_flights.css" />
     <script type="module" src="backend/firebaseConnection.js"></script>
     <script type="module" src="backend/index.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,6 +44,9 @@
                         <br>
                         <input type="text" name="flight" id="flight">
                         <input type="submit" value="" id="flight_btn">
+                        <br>
+                        <input type="checkbox" name="petition_check" id="petition_check"></input>
+                        <label for="petition_check">Buscar peticiones ya existentes</label>
                     </form>
                     <br>
                 </div>
@@ -90,6 +94,13 @@
                             <p id="arrival"></p>
                             <span type="button" id="notMyFlight" class="incorrect_flight_button">No es mi vuelo</span>
                         </div>
+                    </div>
+                </div>
+                <div class="modal-existing" id="dataModal">
+                    <div class="modal-existing-content">
+                        <h2>Lista de Vuelos</h2>
+                        <div id="flightsContainer"></div>
+                        <button class="cancel-button-existing" id="closeModal">Cerrar</button>
                     </div>
                 </div>
             </div>

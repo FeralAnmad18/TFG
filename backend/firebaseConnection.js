@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 import { Constantes } from '../backend/constantes.js';
 
 const firebaseConfig = {
@@ -82,6 +82,31 @@ export class ManageAccount {
       asiento_buscado: asiento_buscado,
       asiento_ofrecido: asiento_ofrecido,
       destino: sessionStorage.getItem("destino"),
+      fecha_vuelo: sessionStorage.getItem("fecha_vuelo"),
+      origen: sessionStorage.getItem("origen"),
+      id_usuario: sessionStorage.getItem("username"),
+      id_vuelo: sessionStorage.getItem("id_vuelo"),
+      solicitante: "",
+      status: "CREATED"
+    })
+      .then(() => {
+        console.log("Peticion de cambio añadida correctamente a Firestore");
+        mostrarMensaje(Constantes.PETICION_CREADA);
+        setTimeout(() => {
+          window.location.href = "../index.html";
+        }, 5000);
+      })
+      .catch((error) => {
+        console.error("Error al añadir la peticion de cambio: ", error);
+      });
+  }
+
+  createRequest(petition) {
+    setDoc(doc(db, "opciones_cambio", generarId()), {
+      asiento_buscado: petition.asiento_buscado,
+      asiento_ofrecido: petition.asiento_ofrecido,
+      destino: sessionStorage.getItem("destino"),
+      fecha_vuelo: sessionStorage.getItem("fecha_vuelo"),
       origen: sessionStorage.getItem("origen"),
       id_usuario: sessionStorage.getItem("username"),
       id_vuelo: sessionStorage.getItem("id_vuelo"),
@@ -163,7 +188,104 @@ export class ManageAccount {
       });
   }
 
+  cancelRequest(id) {
+    const docRef = doc(db, "peticion_cambio", id);
 
+    const nuevosDatos = {
+      status: "CANCELED"
+    };
+
+    updateDoc(docRef, nuevosDatos)
+      .then(() => {
+        console.log("Documento actualizado correctamente.");
+        setTimeout(() => {
+          location.reload()
+        }, 2000);
+
+        return true
+      })
+      .catch((error) => {
+        console.error("Error al actualizar el documento: ", error);
+        setTimeout(() => {
+          location.reload()
+        }, 2000);
+        return false
+      });
+  }
+
+  acceptRequest(id) {
+    const docRef = doc(db, "peticion_cambio", id);
+
+    const nuevosDatos = {
+      status: "ACCEPTED"
+    };
+
+    updateDoc(docRef, nuevosDatos)
+      .then(() => {
+        console.log("Documento actualizado correctamente.");
+        setTimeout(() => {
+          location.reload()
+        }, 2000);
+
+        return true
+      })
+      .catch((error) => {
+        console.error("Error al actualizar el documento: ", error);
+        setTimeout(() => {
+          location.reload()
+        }, 2000);
+        return false
+      });
+  }
+
+  refuseRequest(id) {
+    const docRef = doc(db, "peticion_cambio", id);
+
+    const nuevosDatos = {
+      status: "REFUSED"
+    };
+
+    updateDoc(docRef, nuevosDatos)
+      .then(() => {
+        console.log("Documento actualizado correctamente.");
+        setTimeout(() => {
+          location.reload()
+        }, 2000);
+
+        return true
+      })
+      .catch((error) => {
+        console.error("Error al actualizar el documento: ", error);
+        setTimeout(() => {
+          location.reload()
+        }, 2000);
+        return false
+      });
+  }
+
+
+  obtainPeticionesCreadasPorFechayVuelo(fecha, vuelo) {
+    const q = query(
+      collection(db, "peticion_cambio"),
+      where("id_vuelo", "==", vuelo),
+      where("fecha_vuelo", "==", fecha),
+      where("status", "not-in", ["ACCEPTED", "CANCELED"])
+    );
+
+    return getDocs(q)
+      .then((querySnapshot) => {
+        const docsArray = [];
+        querySnapshot.forEach((doc) => {
+          docsArray.push({ id: doc.id, ...doc.data() });
+        });
+        console.log(docsArray)
+        return docsArray; // Devuelve el array de documentos
+      })
+      .catch((error) => {
+        console.error("Error obteniendo documentos: ", error);
+        return []; // En caso de error, devuelve un array vacío
+      });
+  }
 }
 
 function generateSession(username, id) {

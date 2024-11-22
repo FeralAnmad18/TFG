@@ -1,0 +1,88 @@
+ /* Estilos del modal */
+ .modal-existing {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-existing-content {
+    background-color: white;
+    width: 350px; /* Ancho fijo */
+    max-height: 80%; /* Limitar altura */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    overflow-y: auto; /* Habilitar scroll */
+  }
+
+  /* Encabezado del vuelo */
+  .modal-existing-content h3 {
+    margin: 10px 0;
+    font-size: 1.2em;
+    color: #333;
+  }
+
+  .modal-existing-content p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #555;
+  }
+
+  /* Contenedor de vuelos */
+  .flight-container-existing {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+  }
+
+  /* Contenedor de banderas */
+  .flags-container-existing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+  }
+
+  .flag-existing {
+    width: 40px;
+    height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  .line-existing {
+    width: 30px;
+    height: 2px;
+    background-color: #555;
+    margin: 0 10px;
+  }
+
+  /* Detalles del vuelo */
+  .details-existing {
+    margin: 10px 0;
+    font-size: 0.9em;
+    color: #444;
+  }
+
+  /* Botón */
+  .cancel-button-existing {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-top: 10px;
+  }
+
+  .cancel-button-existing:hover {
+    background-color: darkred;
+  }

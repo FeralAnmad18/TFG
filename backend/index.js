@@ -2,6 +2,13 @@ import { ManageAccount } from '../backend/firebaseConnection.js';
 import { Constantes } from '../backend/constantes.js';
 import { DateManager } from './dateManager.js';
 
+const account = new ManageAccount();
+
+
+const modal = document.getElementById("dataModal");
+const closeModalButton = document.getElementById("closeModal");
+const flightsContainer = document.getElementById("flightsContainer");
+
 document.addEventListener("DOMContentLoaded", () => {
 
     let flightInput = document.getElementById("flight");
@@ -34,8 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     logout.addEventListener('click', function () {
-
-        const account = new ManageAccount();
         account.signOut();
         sessionStorage.clear()
     })
@@ -80,7 +85,7 @@ function obtainFlightByIDandDate(id, date) {
     // Realizar la solicitud
     // Obtén el elemento de carga
     document.getElementById('loader').style.visibility = 'visible';
-    
+
     // Muestra el loader
     loader.style.display = 'block';
     let options = {
@@ -169,8 +174,37 @@ select_date_btn.addEventListener("click", (e) => {
     e.preventDefault();
     let flightInput = document.getElementById("flight");
     let selectElement = document.getElementById("dates");
+    let checkExistingPetitions = document.getElementById("petition_check");
     let date = selectElement.value;
-    obtainFlightByIDandDate(flightInput.value, date)
+    if (checkExistingPetitions.checked) {
+        let petitions = []
+        account.obtainPeticionesCreadasPorFechayVuelo(date, flightInput.value).then((documentos) => {
+            console.log("Documentos obtenidos:", documentos);
+            petitions.push(documentos)
+        });
+        setTimeout(() => {
+            if (petitions.length < 1) {
+                mostrarMensaje(Constantes.NO_PETICIONES_INDEX)
+            } else {
+                populateModal(petitions); // Llenar el modal con datos
+                modal.style.display = "flex";
+            }
+        }, 5000);
+
+    } else {
+        obtainFlightByIDandDate(flightInput.value, date)
+    }
+
+});
+
+closeModalButton.addEventListener("click", () => {
+    modal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
 });
 
 function closeModal() {
@@ -203,7 +237,7 @@ const close_button_flag = document.getElementById("close_button_flag");
 if (close_button_flag) {
     close_button_flag.addEventListener("click", (e) => {
         e.preventDefault();
-        
+        closeModal()
     });
 } else {
     console.error("close_button_flag no fue encontrado en el DOM.");
@@ -268,9 +302,10 @@ function fillFlagModal(data, fecha, id) {
     fechaText.innerText = fecha
     airline.innerText = data[0].airline.name
 
-    sessionStorage.setItem("id_vuelo",id)
-    sessionStorage.setItem("destino",arrCountry)
-    sessionStorage.setItem("origen",deptCountry)
+    sessionStorage.setItem("fecha_vuelo", fecha)
+    sessionStorage.setItem("id_vuelo", id)
+    sessionStorage.setItem("destino", arrCountry)
+    sessionStorage.setItem("origen", deptCountry)
 
     closeModal()
     const modal = document.getElementById("flagModal");
@@ -285,5 +320,69 @@ function mostrarMensaje(textoMensaje) {
         mensaje.style.opacity = '0'; // Oculta el mensaje después de 5 segundos
     }, 5000);
     closeModal();
+}
+
+function populateModal(petitions) {
+    flightsContainer.innerHTML = ""; // Limpiar contenido previo
+
+    petitions[0].forEach(petition => {
+        // Crear contenedor de cada vuelo
+        const flightDiv = document.createElement("div");
+        flightDiv.classList.add("flight-container-existing");
+
+        // Título del vuelo
+        const title = document.createElement("h3");
+        title.textContent = petition.id_vuelo;
+        flightDiv.appendChild(title);
+
+        // Fecha del vuelo
+        const date = document.createElement("p");
+        date.textContent = `Fecha del vuelo: ${petition.fecha_vuelo}`;
+        flightDiv.appendChild(date);
+
+        // Banderas de origen y destino
+        const flagsContainer = document.createElement("div");
+        flagsContainer.classList.add("flags-container-existing");
+
+        const originFlag = document.createElement("img");
+        originFlag.classList.add("flag-existing");
+        originFlag.src = `https://flagcdn.com/w320/${petition.origen}.png`;
+        flagsContainer.appendChild(originFlag);
+
+        const line = document.createElement("div");
+        line.classList.add("line-existing");
+        flagsContainer.appendChild(line);
+
+        const destinationFlag = document.createElement("img");
+        destinationFlag.classList.add("flag-existing");
+        destinationFlag.src = `https://flagcdn.com/w320/${petition.destino}.png`;
+        flagsContainer.appendChild(destinationFlag);
+
+        flightDiv.appendChild(flagsContainer);
+
+        // Detalles de los asientos
+        const details = document.createElement("div");
+        details.classList.add("details-existing");
+        details.innerHTML = `Busca: ${petition.asiento_buscado}<br>Ofrece: ${petition.asiento_ofrecido}`;
+        flightDiv.appendChild(details);
+
+        const button = document.createElement("button");
+
+        button.classList.add("button");
+        button.textContent = "Proponer cambio";
+        button.id = JSON.stringify(petition)
+        console.log(JSON.parse(button.id))
+        button.addEventListener("click", () => {
+            let result = account.createRequest(JSON.parse(button.id));
+            if (result) {
+                mostrarMensaje(Constantes.ERROR);
+            } else {
+                mostrarMensaje(Constantes.PETICION_CANCELADA);
+            }
+
+        })
+        flightDiv.appendChild(button);
+        flightsContainer.appendChild(flightDiv);
+    });
 }
 

@@ -180,10 +180,14 @@ select_date_btn.addEventListener("click", (e) => {
         let petitions = []
         account.obtainPeticionesCreadasPorFechayVuelo(date, flightInput.value).then((documentos) => {
             console.log("Documentos obtenidos:", documentos);
-            petitions.push(documentos)
+            documentos.forEach(element => {
+                if ((!["ACCEPTED", "CANCELED"].includes(element.status)) && (element.id_usuario != sessionStorage.getItem("username"))) {
+                    petitions.push(element)
+                }
+            });
         });
         setTimeout(() => {
-            if (petitions.length < 1) {
+            if (petitions.length < 1 || petitions[0] == undefined) {
                 mostrarMensaje(Constantes.NO_PETICIONES_INDEX)
             } else {
                 populateModal(petitions); // Llenar el modal con datos
@@ -324,65 +328,68 @@ function mostrarMensaje(textoMensaje) {
 
 function populateModal(petitions) {
     flightsContainer.innerHTML = ""; // Limpiar contenido previo
+    if (petitions != undefined) {
 
-    petitions[0].forEach(petition => {
-        // Crear contenedor de cada vuelo
-        const flightDiv = document.createElement("div");
-        flightDiv.classList.add("flight-container-existing");
 
-        // Título del vuelo
-        const title = document.createElement("h3");
-        title.textContent = petition.id_vuelo;
-        flightDiv.appendChild(title);
+        petitions.forEach(petition => {
+            // Crear contenedor de cada vuelo
+            const flightDiv = document.createElement("div");
+            flightDiv.classList.add("flight-container-existing");
 
-        // Fecha del vuelo
-        const date = document.createElement("p");
-        date.textContent = `Fecha del vuelo: ${petition.fecha_vuelo}`;
-        flightDiv.appendChild(date);
+            // Título del vuelo
+            const title = document.createElement("h3");
+            title.textContent = petition.id_vuelo;
+            flightDiv.appendChild(title);
 
-        // Banderas de origen y destino
-        const flagsContainer = document.createElement("div");
-        flagsContainer.classList.add("flags-container-existing");
+            // Fecha del vuelo
+            const date = document.createElement("p");
+            date.textContent = `Fecha del vuelo: ${petition.fecha_vuelo}`;
+            flightDiv.appendChild(date);
 
-        const originFlag = document.createElement("img");
-        originFlag.classList.add("flag-existing");
-        originFlag.src = `https://flagcdn.com/w320/${petition.origen}.png`;
-        flagsContainer.appendChild(originFlag);
+            // Banderas de origen y destino
+            const flagsContainer = document.createElement("div");
+            flagsContainer.classList.add("flags-container-existing");
 
-        const line = document.createElement("div");
-        line.classList.add("line-existing");
-        flagsContainer.appendChild(line);
+            const originFlag = document.createElement("img");
+            originFlag.classList.add("flag-existing");
+            originFlag.src = `https://flagcdn.com/w320/${petition.origen}.png`;
+            flagsContainer.appendChild(originFlag);
 
-        const destinationFlag = document.createElement("img");
-        destinationFlag.classList.add("flag-existing");
-        destinationFlag.src = `https://flagcdn.com/w320/${petition.destino}.png`;
-        flagsContainer.appendChild(destinationFlag);
+            const line = document.createElement("div");
+            line.classList.add("line-existing");
+            flagsContainer.appendChild(line);
 
-        flightDiv.appendChild(flagsContainer);
+            const destinationFlag = document.createElement("img");
+            destinationFlag.classList.add("flag-existing");
+            destinationFlag.src = `https://flagcdn.com/w320/${petition.destino}.png`;
+            flagsContainer.appendChild(destinationFlag);
 
-        // Detalles de los asientos
-        const details = document.createElement("div");
-        details.classList.add("details-existing");
-        details.innerHTML = `Busca: ${petition.asiento_buscado}<br>Ofrece: ${petition.asiento_ofrecido}`;
-        flightDiv.appendChild(details);
+            flightDiv.appendChild(flagsContainer);
 
-        const button = document.createElement("button");
+            // Detalles de los asientos
+            const details = document.createElement("div");
+            details.classList.add("details-existing");
+            details.innerHTML = `Busca: ${petition.asiento_buscado}<br>Ofrece: ${petition.asiento_ofrecido}`;
+            flightDiv.appendChild(details);
 
-        button.classList.add("button");
-        button.textContent = "Proponer cambio";
-        button.id = JSON.stringify(petition)
-        console.log(JSON.parse(button.id))
-        button.addEventListener("click", () => {
-            let result = account.createRequest(JSON.parse(button.id));
-            if (result) {
-                mostrarMensaje(Constantes.ERROR);
-            } else {
-                mostrarMensaje(Constantes.PETICION_CANCELADA);
-            }
+            const button = document.createElement("button");
 
-        })
-        flightDiv.appendChild(button);
-        flightsContainer.appendChild(flightDiv);
-    });
+            button.classList.add("button");
+            button.textContent = "Proponer cambio";
+            button.id = JSON.stringify(petition)
+            console.log(JSON.parse(button.id))
+            button.addEventListener("click", () => {
+                let result = account.createRequest(JSON.parse(button.id));
+                if (result) {
+                    mostrarMensaje(Constantes.ERROR);
+                } else {
+                    mostrarMensaje(Constantes.PETICION_CANCELADA);
+                }
+
+            })
+            flightDiv.appendChild(button);
+            flightsContainer.appendChild(flightDiv);
+        });
+    }
 }
 

@@ -105,13 +105,14 @@ export class ManageAccount {
     setDoc(doc(db, "opciones_cambio", generarId()), {
       asiento_buscado: petition.asiento_buscado,
       asiento_ofrecido: petition.asiento_ofrecido,
-      destino: sessionStorage.getItem("destino"),
-      fecha_vuelo: sessionStorage.getItem("fecha_vuelo"),
-      origen: sessionStorage.getItem("origen"),
-      id_usuario: sessionStorage.getItem("username"),
-      id_vuelo: sessionStorage.getItem("id_vuelo"),
-      solicitante: "",
-      status: "CREATED"
+      destino: petition.destino,
+      fecha_vuelo: petition.fecha_vuelo,
+      id_peticion_cambio: petition.id,
+      origen: petition.origen,
+      id_usuario: petition.id_usuario,
+      id_vuelo: petition.id_vuelo,
+      solicitante: sessionStorage.getItem("username"),
+      status: "REQUESTED"
     })
       .then(() => {
         console.log("Peticion de cambio añadida correctamente a Firestore");
@@ -148,7 +149,7 @@ export class ManageAccount {
 
   obtainPeticionesRecibidas() {
     const q = query(
-      collection(db, "peticion_cambio"),
+      collection(db, "opciones_cambio"),
       where("id_usuario", "==", sessionStorage.getItem("username")),
       where("status", "==", "REQUESTED")
     );
@@ -198,6 +199,7 @@ export class ManageAccount {
     updateDoc(docRef, nuevosDatos)
       .then(() => {
         console.log("Documento actualizado correctamente.");
+        this.getAllOptionRequestForCancelById(id)
         setTimeout(() => {
           location.reload()
         }, 2000);
@@ -210,6 +212,42 @@ export class ManageAccount {
           location.reload()
         }, 2000);
         return false
+      });
+  }
+
+  getAllOptionRequestForCancelById(id) {
+    const q = query(
+      collection(db, "opciones_cambio"),
+      where("id_peticion_cambio", "==", id)
+    );
+
+    return getDocs(q)
+      .then((querySnapshot) => {
+        const docsArray = [];
+        querySnapshot.forEach((doc) => {
+          docsArray.push({ id: doc.id, ...doc.data() });
+        });
+        docsArray.forEach(element => {
+          cancelOptionRequest(element)
+        }); // Devuelve el array de documentos
+      })
+      .catch((error) => {
+        console.error("Error obteniendo documentos: ", error);
+      });
+  }
+
+  cancelOptionRequest(element) {
+    const docRef = doc(db, "opciones_cambio", id);
+
+    element.status = "CANCELED"
+
+    updateDoc(docRef, element)
+      .then(() => {
+        console.log("Documento actualizado correctamente.");
+
+      })
+      .catch((error) => {
+        console.error("Error al actualizar el documento: ", error);
       });
   }
 
@@ -268,22 +306,19 @@ export class ManageAccount {
     const q = query(
       collection(db, "peticion_cambio"),
       where("id_vuelo", "==", vuelo),
-      where("fecha_vuelo", "==", fecha),
-      where("status", "not-in", ["ACCEPTED", "CANCELED"])
+      where("fecha_vuelo", "==", fecha)
     );
-
     return getDocs(q)
       .then((querySnapshot) => {
         const docsArray = [];
         querySnapshot.forEach((doc) => {
           docsArray.push({ id: doc.id, ...doc.data() });
         });
-        console.log(docsArray)
         return docsArray; // Devuelve el array de documentos
       })
       .catch((error) => {
         console.error("Error obteniendo documentos: ", error);
-        return []; // En caso de error, devuelve un array vacío
+        return
       });
   }
 }

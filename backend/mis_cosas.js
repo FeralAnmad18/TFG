@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   logout.addEventListener('click', function () {
 
 
-    account.signOut();
+    account.signOutNotIndex();
     sessionStorage.clear()
   })
 
@@ -188,9 +188,20 @@ document.addEventListener("DOMContentLoaded", () => {
           if (result) {
             mostrarMensaje(Constantes.ERROR);
           } else {
+            let opcionesCambio = []
+            let i = 0;
+            account.getAllOptionRequestForCancelById(button.id).then((documentos) => {
+              console.log("Documentos obtenidos:", documentos);
+              opcionesCambio.push(documentos)
+              opcionesCambio.forEach(element => {
+                account.cancelOptionRequest(element[i])
+                i++
+              });
+            });
+
             mostrarMensaje(Constantes.PETICION_CANCELADA);
           }
-          
+
         })
         break;
       case "received-offers-btn":
@@ -204,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
             mostrarMensaje(Constantes.PETICION_ACEPTADA);
           }
-          
+
         })
         cancelButton.classList.add("cancel-button");
         cancelButton.textContent = "Rechazar cambio";
@@ -216,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
             mostrarMensaje(Constantes.PETICION_RECHAZADA);
           }
-          
+
         })
         flightContainer.appendChild(cancelButton);
         break;
@@ -231,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
             mostrarMensaje(Constantes.PETICION_CANCELADA);
           }
-          
+
         })
         break;
     }
@@ -249,7 +260,7 @@ function mostrarMensaje(textoMensaje) {
   mensaje.style.opacity = '1'; // Muestra el mensaje
   mensaje.innerText = textoMensaje
   setTimeout(() => {
-      mensaje.style.opacity = '0'; // Oculta el mensaje después de 5 segundos
+    mensaje.style.opacity = '0'; // Oculta el mensaje después de 5 segundos
   }, 5000);
   closeModal();
 }

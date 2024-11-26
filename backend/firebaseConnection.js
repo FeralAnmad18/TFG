@@ -62,6 +62,16 @@ export class ManageAccount {
       });
   }
 
+  signOutNotIndex() {
+    signOut(auth)
+      .then((_) => {
+        window.location.href = "../index.html";
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }
+
   insertUserData(email, username, id) {
     setDoc(doc(db, "usuarios", email), {
       email: email,
@@ -221,15 +231,13 @@ export class ManageAccount {
       where("id_peticion_cambio", "==", id)
     );
 
-    return getDocs(q)
+   return getDocs(q)
       .then((querySnapshot) => {
         const docsArray = [];
         querySnapshot.forEach((doc) => {
           docsArray.push({ id: doc.id, ...doc.data() });
         });
-        docsArray.forEach(element => {
-          cancelOptionRequest(element)
-        }); // Devuelve el array de documentos
+        return docsArray; // Devuelve el array de documentos
       })
       .catch((error) => {
         console.error("Error obteniendo documentos: ", error);
@@ -237,7 +245,7 @@ export class ManageAccount {
   }
 
   cancelOptionRequest(element) {
-    const docRef = doc(db, "opciones_cambio", id);
+    const docRef = doc(db, "opciones_cambio", element.id);
 
     element.status = "CANCELED"
 

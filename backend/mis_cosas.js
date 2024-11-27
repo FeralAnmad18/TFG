@@ -193,8 +193,8 @@ document.addEventListener("DOMContentLoaded", () => {
             account.getAllOptionRequestForCancelById(button.id).then((documentos) => {
               console.log("Documentos obtenidos:", documentos);
               opcionesCambio.push(documentos)
-              opcionesCambio.forEach(element => {
-                account.cancelOptionRequest(element[i])
+              opcionesCambio[0].forEach(element => {
+                account.cancelOptionRequest(element)
                 i++
               });
             });
@@ -229,6 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
         })
+        flagsContainer.innerHTML += "&nbsp;";
         flightContainer.appendChild(cancelButton);
         break;
       case "accepted-offers-btn":

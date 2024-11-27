@@ -43,12 +43,12 @@ export class ManageAccount {
         obtainUserData(email)
         //window.location.href = "../index.html";
         // Mostrar alerta de inicio de sesión exitoso
-        alert("Has iniciado sesión correctamente. Serás redirigido a la página principal.");
+        return true
       })
       .catch((error) => {
         console.error(error.message);
         // Mostrar alerta de error de inicio de sesión
-        alert("Error al iniciar sesión: " + error.message);
+        return false
       });
   }
 
@@ -180,7 +180,7 @@ export class ManageAccount {
 
   obtainPeticionesAceptadas() {
     const q = query(
-      collection(db, "peticion_cambio"),
+      collection(db, "opciones_cambio"),
       where("id_usuario", "==", sessionStorage.getItem("username")),
       where("status", "==", "ACCEPTED")
     );
@@ -260,7 +260,7 @@ export class ManageAccount {
   }
 
   acceptRequest(id) {
-    const docRef = doc(db, "peticion_cambio", id);
+    const docRef = doc(db, "opciones_cambio", id);
 
     const nuevosDatos = {
       status: "ACCEPTED"

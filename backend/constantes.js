@@ -12,6 +12,8 @@ export class Constantes {
     static NO_REQUESTED = "Actualmente no hay peticiones pendientes de respuesta"
     static NO_ACCEPTED = "Actualmente no hay peticiones aceptadas"
     static NO_PETICIONES_INDEX = "Actualmente no hay peticiones con los datos proporcionados"
+    static LOGIN_OK = "Has iniciado sesión correctamente. Serás redirigido a la página principal.";
+    static LOGIN_NOT_OK = "Usuario y/o contraseña incorrectos.";
 
     // Método estático opcional para obtener las constantes (no es necesario, pero puede ser útil)
     static obtenerConstante(nombre) {

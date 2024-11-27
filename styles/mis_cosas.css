@@ -68,6 +68,7 @@
     padding: 5px 10px;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
 }
 .cancel-button:hover {
     background-color: #d80000;

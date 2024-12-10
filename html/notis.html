@@ -8,8 +8,9 @@
     <link rel="icon" type="image/x-icon" href="../images/logo.png">
     <link rel="stylesheet" type="text/css" href="../styles/styles.css" />
     <link rel="stylesheet" type="text/css" href="../styles/mis_cosas.css" />
+    <link rel="stylesheet" type="text/css" href="../styles/notis.css" />
     <script type="module" src="backend/firebaseConnection.js"></script>
-    <script type="module" src="../backend/mis_cosas.js"></script>
+    <script type="module" src="../backend/notis.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
@@ -29,22 +30,24 @@
                     <div class="contenido_opciones">
                         <ul>
                             <br>
-                            <li id="login"><a href="html/login.html">Iniciar Sesion</a> / <a
-                                    href="html/signUp.html">Regristrese</a></li>
+                            <li id="login"><a href="login.html">Iniciar Sesion</a> / <a
+                                    href="signUp.html">Regristrese</a></li>
                             <li id="logout"><a href="index.html" action="logout()">Cerrar Sesion</a></li>
-                            <li><a href="notis.html">Notificaciones</a></li>
-                            <li id="mis_cambios">Mis cambios</li>
+                            <li id="notis"><a href="notis.html">Notificaciones</a></li>
+                            <li id="mis_cambios"><a href="mis_cosas.html">Mis cambios</a></li>
                         </ul>
                     </div>
                 </div>
                 <br>
                 <div class="tabs">
-                    <button class="tab-button" id="my-offers-btn">Ofertas creadas por mí</button>
-                    <button class="tab-button" id="received-offers-btn" >Ofertas recibidas</button>
-                    <button class="tab-button" id="accepted-offers-btn" >Ofertas aceptadas</button>
-                    <div id="my-offers" class="tab-content active"></div>
-                    <div id="received-offers" class="tab-content"></div>
-                    <div id="accepted-offers" class="tab-content"></div>
+                    <div id="notis_table"></div>
+                </div>
+                <div id="noti_message_modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-button" id="close_button" onclick="closeModal()">&times;</span>
+                        <h4 id="titulo_message"></h4>
+                        <p id="message_body"></p>
+                    </div>
                 </div>
                 <div id="mensajeFlotante"></div>
             </div>

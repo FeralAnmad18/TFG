@@ -329,6 +329,29 @@ export class ManageAccount {
         return
       });
   }
+
+  getNotisByUserID(){
+    const q = query(
+      collection(db, "notificaciones"),
+      where("usuario_receptor", "==", sessionStorage.getItem("username"))
+    );
+
+   return getDocs(q)
+      .then((querySnapshot) => {
+        const docsArray = [];
+        querySnapshot.forEach((doc) => {
+          docsArray.push({ id: doc.id, ...doc.data() });
+        });
+        return docsArray; // Devuelve el array de documentos
+      })
+      .catch((error) => {
+        console.error("Error obteniendo documentos: ", error);
+      });
+  }
+
+  readNotification(id){
+    
+  }
 }
 
 function generateSession(username, id) {

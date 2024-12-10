@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let login = document.getElementById("login")
     let logout = document.getElementById("logout")
     let mis_cambios = document.getElementById("mis_cambios")
+    let notis = document.getElementById("notis")
 
     if (userSessionID === null) {
         flightInput.disabled = true
@@ -29,6 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
         login.style.display = "block"
         mis_cambios.style.visibility = "hidden"
         mis_cambios.style.display = "none"
+        notis.style.visibility = "hidden"
+        notis.style.display = "none"
     } else {
         flightInput.disabled = false
         flightBtn.disabled = false
@@ -38,6 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
         login.style.display = "none"
         mis_cambios.style.visibility = "visible"
         mis_cambios.style.display = "block"
+        notis.style.visibility = "visible"
+        notis.style.display = "block"
     }
 
     logout.addEventListener('click', function () {
@@ -153,6 +158,8 @@ function obtainDatesByFlightByID(id) {
 // Función para mostrar el modal
 function showModal(data) {
     const modal = document.getElementById("apiModal");
+    let body = document.getElementById("apiModal");
+    let title = document.getElementById("apiModal");
     fillDates(data)
     modal.style.display = "flex"; // Muestra el modal
 }

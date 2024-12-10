@@ -1,0 +1,31 @@
+table {
+    padding-top: 10%;
+    margin-top: 10px;
+    width: 50%;             /* Ancho de la tabla */
+    border-collapse: collapse;
+    margin: 20px auto;
+    margin-left: 5%;
+    table-layout: fixed;    /* Distribuye las columnas equitativamente */
+}
+
+th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: center;
+    width: 20%;             /* Hace que todas las celdas tengan el mismo ancho */
+}
+
+th {
+    background-color: lightslategray;
+    color: white;
+}
+
+td {
+    background-color: #f4f4f4;
+}
+
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 2px;
+}

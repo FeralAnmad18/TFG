@@ -3,8 +3,26 @@ import { Constantes } from '../backend/constantes.js';
 import { DateManager } from './dateManager.js';
 
 const account = new ManageAccount();
+let contador_notificaciones = 0;
 
-document.addEventListener("DOMContentLoaded",() => {
+document.addEventListener("DOMContentLoaded", () => {
+
+    let notis_A = document.getElementById("notis_A")
+    account.getNotisByUserID().then((documentos) => {
+        console.log("Documentos obtenidos:", documentos);
+        documentos.forEach((documento, index) => {
+            // Verificamos si es el último documento
+            if (documento.leido === false) {
+                contador_notificaciones++;
+            }
+
+            if (index === documentos.length - 1) {
+                console.log("Este es el último documento:", documento);
+                console.log("numero de notis: ", contador_notificaciones)
+                notis_A.innerText += " (" + contador_notificaciones + ")"
+            }
+        });
+    });
 
     let userSessionID = sessionStorage.getItem("sessionID")
     let login = document.getElementById("login")
@@ -38,10 +56,10 @@ document.addEventListener("DOMContentLoaded",() => {
             all_notis.push(documento);
             // Verificamos si es el último documento
             if (index === documentos.length - 1) {
-              console.log("Este es el último documento:", documento);
-              fillTable(all_notis)
+                console.log("Este es el último documento:", documento);
+                fillTable(all_notis)
             }
-          });
+        });
     });
 
 
@@ -51,7 +69,7 @@ document.addEventListener("DOMContentLoaded",() => {
 function fillTable(data) {
     const datos = data;
     const cabeceras = [
-        ["","Remitente", "Fecha", "Acciones"]
+        ["", "Remitente", "Fecha", "Acciones"]
     ];
 
     // Selecciona el contenedor de la tabla
@@ -67,6 +85,8 @@ function fillTable(data) {
     // Itera sobre los datos para crear filas y celdas
     cabeceras.forEach((fila, indice) => {
         const tr = document.createElement('tr');
+        const br = document.createElement('br')
+        tbody.appendChild(br)
 
         fila.forEach(celda => {
             const cell = indice === 0 ? document.createElement('th') : document.createElement('td');
@@ -78,76 +98,80 @@ function fillTable(data) {
     });
     datos.forEach((fila) => {
         const tr = document.createElement('tr');
-    
+
         // Celda para el icono
         let iconCell = document.createElement('td');
         let icon = document.createElement('img');
-    
+
         if (fila.leido === true) {
             icon.src = "../images/read_icon.png"; // Icono para leídos
         } else {
             icon.src = "../images/unread.png"; // Icono para no leídos
         }
-    
+
         icon.alt = "Estado de lectura"; // Descripción alternativa
         icon.style.width = "20px";      // Ajustar tamaño del icono si es necesario
         icon.style.height = "20px";
         iconCell.appendChild(icon);
         tr.appendChild(iconCell);
-    
+
         // Celda para usuario_emisor
         let userCell = document.createElement('td');
         userCell.textContent = fila.usuario_emisor;
         tr.appendChild(userCell);
-    
+
         // Celda para fecha
         let dateCell = document.createElement('td');
         dateCell.textContent = fila.fecha;
         tr.appendChild(dateCell);
-    
+
         // Celda para botones de acciones
         const accionesCell = document.createElement('td');
-    
+
         // Botón "Leer"
         const leerBtn = document.createElement('button');
         leerBtn.textContent = "Leer";
         leerBtn.id = JSON.stringify(fila);
         leerBtn.onclick = () => readNotification(leerBtn.id);
-    
+
         // Botón "Marcar como leído"
         const marcarLeidoBtn = document.createElement('button');
         marcarLeidoBtn.textContent = "Marcar como leído";
-        marcarLeidoBtn.id = fila.id;
+        marcarLeidoBtn.id = JSON.stringify(fila);
         marcarLeidoBtn.onclick = () => setNotificationAsRead(marcarLeidoBtn.id);
-    
+
         // Agregar los botones a la celda de acciones
         accionesCell.appendChild(leerBtn);
         accionesCell.appendChild(marcarLeidoBtn);
-    
+
         tr.appendChild(accionesCell);
-    
+
         // Cambiar el color de fondo si la notificación está leída
         if (fila.leido === true) {
             tr.querySelectorAll('td').forEach(td => {
                 td.style.backgroundColor = "#b3b2b1";
             });
         }
-    
+
         // Agregar la fila completa al tbody
         tbody.appendChild(tr);
     });
-    
+
     // Agrega el cuerpo a la tabla y la tabla al contenedor
     tabla.appendChild(tbody);
     container.appendChild(tabla);
 }
 
-function readNotification(id){
-    showNotificationMessage(JSON.parse(id))
+function readNotification(notificacion) {
+    showNotificationMessage(JSON.parse(notificacion))
+    account.readNotification(JSON.parse(notificacion))
 }
 
-function setNotificationAsRead(id){
-    alert(id)
+function setNotificationAsRead(notificacion) {
+    account.readNotification(JSON.parse(notificacion))
+    setTimeout(() => {
+        location.reload()
+    }, 1000);
 }
 
 function showNotificationMessage(data) {
@@ -167,7 +191,7 @@ if (close_button) {
     close_button.addEventListener("click", (e) => {
         e.preventDefault();
         closeModal();
-        location.reload
+        location.reload()
     });
 } else {
     console.error("close_button no fue encontrado en el DOM.");

@@ -199,8 +199,8 @@ export class ManageAccount {
       });
   }
 
-  cancelRequest(id) {
-    const docRef = doc(db, "peticion_cambio", id);
+  cancelRequest(peticion) {
+    const docRef = doc(db, "peticion_cambio", peticion.id_peticion_cambio);
 
     const nuevosDatos = {
       status: "CANCELED"
@@ -209,7 +209,7 @@ export class ManageAccount {
     updateDoc(docRef, nuevosDatos)
       .then(() => {
         console.log("Documento actualizado correctamente.");
-        this.getAllOptionRequestForCancelById(id)
+        this.getAllOptionRequestForCancelById(peticion)
         setTimeout(() => {
           location.reload()
         }, 2000);
@@ -225,10 +225,10 @@ export class ManageAccount {
       });
   }
 
-  getAllOptionRequestForCancelById(id) {
+  getAllOptionRequestForCancelById(peticion) {
     const q = query(
       collection(db, "opciones_cambio"),
-      where("id_peticion_cambio", "==", id)
+      where("id_peticion_cambio", "==", peticion.id_peticion_cambio)
     );
 
    return getDocs(q)
@@ -237,7 +237,9 @@ export class ManageAccount {
         querySnapshot.forEach((doc) => {
           docsArray.push({ id: doc.id, ...doc.data() });
         });
-        return docsArray; // Devuelve el array de documentos
+       docsArray.forEach(element => {
+        this.cancelOptionRequest(element)
+       });; // Devuelve el array de documentos
       })
       .catch((error) => {
         console.error("Error obteniendo documentos: ", error);
@@ -259,8 +261,30 @@ export class ManageAccount {
       });
   }
 
-  acceptRequest(id) {
-    const docRef = doc(db, "opciones_cambio", id);
+  acceptRequest(option) {
+    const docRef = doc(db, "opciones_cambio", option.id);
+
+    const nuevosDatos = {
+      status: "ACCEPTED"
+    };
+
+    updateDoc(docRef, nuevosDatos)
+      .then(() => {
+        console.log("Documento actualizado correctamente.");
+        this.acceptOptionRequest(option)
+        return true
+      })
+      .catch((error) => {
+        console.error("Error al actualizar el documento: ", error);
+        setTimeout(() => {
+          location.reload()
+        }, 2000);
+        return false
+      });
+  }
+
+  acceptOptionRequest(peticion) {
+    const docRef = doc(db, "peticion_cambio", peticion.id_peticion_cambio);
 
     const nuevosDatos = {
       status: "ACCEPTED"
@@ -284,8 +308,30 @@ export class ManageAccount {
       });
   }
 
-  refuseRequest(id) {
-    const docRef = doc(db, "peticion_cambio", id);
+  refuseRequest(option) {
+    const docRef = doc(db, "opciones_cambio", option.id);
+
+    const nuevosDatos = {
+      status: "REFUSED"
+    };
+
+    updateDoc(docRef, nuevosDatos)
+      .then(() => {
+        console.log("Documento actualizado correctamente.");
+        this.refuseOptionRequest(option)
+        return true
+      })
+      .catch((error) => {
+        console.error("Error al actualizar el documento: ", error);
+        setTimeout(() => {
+          location.reload()
+        }, 2000);
+        return false
+      });
+  }
+
+  refuseOptionRequest(peticion) {
+    const docRef = doc(db, "peticion_cambio", peticion.id_peticion_cambio);
 
     const nuevosDatos = {
       status: "REFUSED"
@@ -308,7 +354,6 @@ export class ManageAccount {
         return false
       });
   }
-
 
   obtainPeticionesCreadasPorFechayVuelo(fecha, vuelo) {
     const q = query(
@@ -349,8 +394,36 @@ export class ManageAccount {
       });
   }
 
-  readNotification(id){
-    
+  readNotification(notificacion){
+    const docRef = doc(db, "notificaciones", notificacion.id);
+
+    notificacion.leido = true
+
+    updateDoc(docRef, notificacion)
+      .then(() => {
+        console.log("Documento actualizado correctamente.");
+      })
+      .catch((error) => {
+        console.error("Error al actualizar el documento: ", error);
+      });
+  }
+
+  createNotification(mensaje, user){
+    let id = generarId()
+    setDoc(doc(db, "notificaciones", id), {
+      fecha: format(new Date(Date.now())),
+      id: id,
+      leido: false,
+      mensaje: mensaje,
+      usuario_emisor: sessionStorage.getItem("username"),
+      usuario_receptor: user
+    })
+      .then(() => {
+        console.log("Notificacion creada");
+      })
+      .catch((error) => {
+        console.error("Error al crear notificacion: ", error);
+      });
   }
 }
 
@@ -393,4 +466,16 @@ function generarId() {
     id += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
   }
   return id;
+}
+
+function format (date) {  
+  if (!(date instanceof Date)) {
+    throw new Error('Invalid "date" argument. You must pass a date instance')
+  }
+
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+
+  return `${year}-${month}-${day}`
 }

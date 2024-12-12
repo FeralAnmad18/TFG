@@ -14,6 +14,9 @@ export class Constantes {
     static NO_PETICIONES_INDEX = "Actualmente no hay peticiones con los datos proporcionados"
     static LOGIN_OK = "Has iniciado sesión correctamente. Serás redirigido a la página principal.";
     static LOGIN_NOT_OK = "Usuario y/o contraseña incorrectos.";
+    static MENSAJE_PETICION_ACEPTADA = (user) => `${user} ha aceptado tu petición`;
+    static MENSAJE_PETICION_RECHAZADA = (user) => `${user} ha rechazado tu petición`;
+    static MENSAJE_PETICION_CANCELADA = (user) => `${user} ha cancelado el cambio`;
 
     // Método estático opcional para obtener las constantes (no es necesario, pero puede ser útil)
     static obtenerConstante(nombre) {

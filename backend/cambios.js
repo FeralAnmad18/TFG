@@ -3,6 +3,13 @@ import { ManageAccount } from '../backend/firebaseConnection.js';
 document.addEventListener("DOMContentLoaded", () => {
 
   let cambios_form = document.getElementById("cambios_form");
+  let cancel_btn = document.getElementById("cancel_btn");
+
+  cancel_btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    cancelarCambio()
+
+  })
 
   if (cambios_form) {
     cambios_form.addEventListener("submit", (e) => {
@@ -16,6 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+
+function cancelarCambio(){
+  window.location.href = "../index.html"
+}
 
 
 

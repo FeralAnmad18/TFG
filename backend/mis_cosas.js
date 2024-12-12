@@ -1,11 +1,29 @@
 import { ManageAccount } from '../backend/firebaseConnection.js';
 import { Constantes } from '../backend/constantes.js';
+let contador_notificaciones = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
+  const account = new ManageAccount();
+  let notis_A = document.getElementById("notis_A")
+    account.getNotisByUserID().then((documentos) => {
+        console.log("Documentos obtenidos:", documentos);
+        documentos.forEach((documento, index) => {
+            // Verificamos si es el último documento
+            if (documento.leido === false) {
+                contador_notificaciones++;
+            }
+            
+            if (index === documentos.length - 1) {
+              console.log("Este es el último documento:", documento);
+              console.log("numero de notis: ", contador_notificaciones)
+              notis_A.innerText += " ("+contador_notificaciones+")"
+            }
+          });
+    });
 
   let myOffersData = []
 
-  const account = new ManageAccount();
+  
   account.obtainCambiosByUserId().then((documentos) => {
     console.log("Documentos obtenidos:", documentos);
     myOffersData.push(documentos)
@@ -169,12 +187,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Añadir el contenedor de banderas al contenedor principal
     flightContainer.appendChild(flagsContainer);
 
-    // Añadir los detalles de "Busca" y "Ofrece"
     const details = document.createElement("div");
+    if (id != "my-offers-btn") {
+      details.innerHTML = `Usuario: <b>${vuelo.solicitante}<b><br>`;
+    }
     details.classList.add("details");
-    details.innerHTML = `Busca: ${vuelo.asiento_buscado}<br>Ofrece: ${vuelo.asiento_ofrecido}`;
+    details.innerHTML += `Busca: ${vuelo.asiento_buscado}<br>Ofrece: ${vuelo.asiento_ofrecido}`;
     flightContainer.appendChild(details);
-
     // Añadir el botón
     const button = document.createElement("button");
     const cancelButton = document.createElement("button");
@@ -207,25 +226,29 @@ document.addEventListener("DOMContentLoaded", () => {
       case "received-offers-btn":
         button.classList.add("button");
         button.textContent = "Aceptar cambio";
-        button.id = vuelo.id
+        button.id = JSON.stringify(vuelo)
         button.addEventListener("click", () => {
-          let result = account.acceptRequest(button.id);
+          let result = account.acceptRequest(JSON.parse(button.id));
           if (result) {
             mostrarMensaje(Constantes.ERROR);
           } else {
+            account.createNotification(Constantes.MENSAJE_PETICION_ACEPTADA(sessionStorage.getItem("username")), vuelo.solicitante)
             mostrarMensaje(Constantes.PETICION_ACEPTADA);
+
           }
 
         })
         cancelButton.classList.add("cancel-button");
         cancelButton.textContent = "Rechazar cambio";
-        cancelButton.id = vuelo.id
+        cancelButton.id = JSON.stringify(vuelo)
         cancelButton.addEventListener("click", () => {
-          let result = account.refuseRequest(cancelButton.id);
+          let result = account.refuseRequest(JSON.parse(cancelButton.id));
           if (result) {
             mostrarMensaje(Constantes.ERROR);
           } else {
+            account.createNotification(Constantes.MENSAJE_PETICION_RECHAZADA(sessionStorage.getItem("username")), vuelo.solicitante)
             mostrarMensaje(Constantes.PETICION_RECHAZADA);
+
           }
 
         })
@@ -235,13 +258,15 @@ document.addEventListener("DOMContentLoaded", () => {
       case "accepted-offers-btn":
         button.classList.add("cancel-button");
         button.textContent = "Cancelar cambio";
-        button.id = vuelo.id
+        button.id = JSON.stringify(vuelo)
         button.addEventListener("click", () => {
-          let result = account.cancelRequest(button.id);
+          let result = account.cancelRequest(JSON.parse(button.id));
           if (result) {
             mostrarMensaje(Constantes.ERROR);
           } else {
+            account.createNotification(Constantes.MENSAJE_PETICION_CANCELADA(sessionStorage.getItem("username")), vuelo.solicitante)
             mostrarMensaje(Constantes.PETICION_CANCELADA);
+
           }
 
         })

@@ -1,387 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modal con Scroll</title>
-  <style>
-    html {
-    font-family: "Roboto Mono", sans-serif;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoveMySeat Login</title>
+    <link rel="icon" type="image/x-icon" href="../images/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      /* Estilos globales */
+/* Estilos globales */
+body {
+    font-family: 'Roboto Mono', monospace;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: url('../images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
 }
-    /* Estilos del modal */
-    .modal-existing {
-      display: none; /* Oculto por defecto */
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-      justify-content: center;
-      align-items: center;
+
+a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente para mejorar legibilidad */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Encabezado */
+.contenido_cabecera p {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+}
+
+/* Navegación */
+.contenido_opciones ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.contenido_opciones li {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Formulario */
+.index_form_inputs {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+form label {
+    font-weight: bold;
+    color: #fff;
+}
+
+form input[type="text"],
+form input[type="submit"] {
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+}
+
+form input[type="text"] {
+    background-color: #f0f0f0;
+}
+
+form input[type="submit"] {
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Checkbox */
+form .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+}
+
+/* Loader */
+.loader-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contenido_opciones ul {
+        flex-direction: column;
+        align-items: center;
     }
 
-    .modal-existing-content {
-      background-color: white;
-      width: 350px; /* Ancho fijo */
-      max-height: 80%; /* Limitar altura */
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      overflow-y: auto; /* Habilitar scroll */
+    form {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .contenido_cabecera p {
+        font-size: 1.5rem;
     }
 
-    /* Encabezado del vuelo */
-    .modal-existing-content h3 {
-      margin: 10px 0;
-      font-size: 1.2em;
-      color: #333;
+    .contenido_opciones li {
+        width: 100%;
+        text-align: center;
     }
+}
 
-    .modal-existing-content p {
-      margin: 5px 0;
-      font-size: 1em;
-      color: #555;
-    }
 
-    /* Contenedor de vuelos */
-    .flight-container-existing {
-      margin-bottom: 20px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 10px;
-    }
-
-    /* Contenedor de banderas */
-    .flags-container-existing {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 10px 0;
-    }
-
-    .flag-existing {
-      width: 40px;
-      height: 30px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-
-    .line-existing {
-      width: 30px;
-      height: 2px;
-      background-color: #555;
-      margin: 0 10px;
-    }
-
-    /* Detalles del vuelo */
-    .details-existing {
-      margin: 10px 0;
-      font-size: 0.9em;
-      color: #444;
-    }
-
-    /* Botón */
-    .cancel-button-existing {
-      background-color: red;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 15px;
-      cursor: pointer;
-      font-size: 0.9em;
-      margin-top: 10px;
-    }
-
-    .cancel-button-existing:hover {
-      background-color: darkred;
-    }
-  </style>
+    </style>
 </head>
+
 <body>
-  <!-- Botón para abrir el modal -->
-  <button id="openModal">Ver Vuelos</button>
+    <div class="container">
+        <header class="header">
+            <p class="logo"><a href="../index.html">MoveMySeat</a></p>
+        </header>
 
-  <!-- Modal -->
-  <div class="modal-existing" id="dataModal">
-    <div class="modal-existing-content">
-      <h2>Lista de Vuelos</h2>
-      <div id="flightsContainer"></div>
-      <button class="cancel-button-existing" id="closeModal">Cerrar</button>
+        <nav class="nav">
+            <ul>
+                <li><a href="login.html">Iniciar Sesión</a> / <a href="signUp.html">Regístrese</a></li>
+                <li><a href="index.html" onclick="logout()">Cerrar Sesión</a></li>
+                <li><a href="notis.html">Notificaciones</a></li>
+                <li>Mis cambios</li>
+            </ul>
+        </nav>
+
+        <main class="form-section">
+            <form action="../index.html" method="get">
+                <label for="flight">Busca tu vuelo</label>
+                <input type="text" name="flight" id="flight" placeholder="Número de vuelo">
+                <input type="submit" value="Buscar">
+                <div class="checkbox-container">
+                    <input type="checkbox" name="petition_check" id="petition_check">
+                    <label for="petition_check">Buscar peticiones ya existentes</label>
+                </div>
+            </form>
+        </main>
     </div>
-  </div>
-
-  <script>
-    // Datos de ejemplo (puedes reemplazar con tus datos dinámicos)
-    const flights = [
-      {
-        id_vuelo: "FR6791",
-        fecha_vuelo: "2024-11-22",
-        origen: "es",
-        destino: "ma",
-        asiento_buscado: "DFB",
-        asiento_ofrecido: "HDG",
-      },
-      {
-        id_vuelo: "FR1234",
-        fecha_vuelo: "2024-12-15",
-        origen: "fr",
-        destino: "it",
-        asiento_buscado: "A1",
-        asiento_ofrecido: "B2",
-      },
-      {
-        id_vuelo: "FR5678",
-        fecha_vuelo: "2025-01-10",
-        origen: "de",
-        destino: "uk",
-        asiento_buscado: "C3",
-        asiento_ofrecido: "D4",
-      },
-      {
-        id_vuelo: "FR6791",
-        fecha_vuelo: "2024-11-22",
-        origen: "es",
-        destino: "ma",
-        asiento_buscado: "DFB",
-        asiento_ofrecido: "HDG",
-      },
-      {
-        id_vuelo: "FR1234",
-        fecha_vuelo: "2024-12-15",
-        origen: "fr",
-        destino: "it",
-        asiento_buscado: "A1",
-        asiento_ofrecido: "B2",
-      },
-      {
-        id_vuelo: "FR5678",
-        fecha_vuelo: "2025-01-10",
-        origen: "de",
-        destino: "uk",
-        asiento_buscado: "C3",
-        asiento_ofrecido: "D4",
-      },
-      {
-        id_vuelo: "FR6791",
-        fecha_vuelo: "2024-11-22",
-        origen: "es",
-        destino: "ma",
-        asiento_buscado: "DFB",
-        asiento_ofrecido: "HDG",
-      },
-      {
-        id_vuelo: "FR1234",
-        fecha_vuelo: "2024-12-15",
-        origen: "fr",
-        destino: "it",
-        asiento_buscado: "A1",
-        asiento_ofrecido: "B2",
-      },
-      {
-        id_vuelo: "FR5678",
-        fecha_vuelo: "2025-01-10",
-        origen: "de",
-        destino: "uk",
-        asiento_buscado: "C3",
-        asiento_ofrecido: "D4",
-      },
-      {
-        id_vuelo: "FR6791",
-        fecha_vuelo: "2024-11-22",
-        origen: "es",
-        destino: "ma",
-        asiento_buscado: "DFB",
-        asiento_ofrecido: "HDG",
-      },
-      {
-        id_vuelo: "FR1234",
-        fecha_vuelo: "2024-12-15",
-        origen: "fr",
-        destino: "it",
-        asiento_buscado: "A1",
-        asiento_ofrecido: "B2",
-      },
-      {
-        id_vuelo: "FR5678",
-        fecha_vuelo: "2025-01-10",
-        origen: "de",
-        destino: "uk",
-        asiento_buscado: "C3",
-        asiento_ofrecido: "D4",
-      },
-      {
-        id_vuelo: "FR6791",
-        fecha_vuelo: "2024-11-22",
-        origen: "es",
-        destino: "ma",
-        asiento_buscado: "DFB",
-        asiento_ofrecido: "HDG",
-      },
-      {
-        id_vuelo: "FR1234",
-        fecha_vuelo: "2024-12-15",
-        origen: "fr",
-        destino: "it",
-        asiento_buscado: "A1",
-        asiento_ofrecido: "B2",
-      },
-      {
-        id_vuelo: "FR5678",
-        fecha_vuelo: "2025-01-10",
-        origen: "de",
-        destino: "uk",
-        asiento_buscado: "C3",
-        asiento_ofrecido: "D4",
-      },
-      {
-        id_vuelo: "FR6791",
-        fecha_vuelo: "2024-11-22",
-        origen: "es",
-        destino: "ma",
-        asiento_buscado: "DFB",
-        asiento_ofrecido: "HDG",
-      },
-      {
-        id_vuelo: "FR1234",
-        fecha_vuelo: "2024-12-15",
-        origen: "fr",
-        destino: "it",
-        asiento_buscado: "A1",
-        asiento_ofrecido: "B2",
-      },
-      {
-        id_vuelo: "FR5678",
-        fecha_vuelo: "2025-01-10",
-        origen: "de",
-        destino: "uk",
-        asiento_buscado: "C3",
-        asiento_ofrecido: "D4",
-      },
-      {
-        id_vuelo: "FR6791",
-        fecha_vuelo: "2024-11-22",
-        origen: "es",
-        destino: "ma",
-        asiento_buscado: "DFB",
-        asiento_ofrecido: "HDG",
-      },
-      {
-        id_vuelo: "FR1234",
-        fecha_vuelo: "2024-12-15",
-        origen: "fr",
-        destino: "it",
-        asiento_buscado: "A1",
-        asiento_ofrecido: "B2",
-      },
-      {
-        id_vuelo: "FR5678",
-        fecha_vuelo: "2025-01-10",
-        origen: "de",
-        destino: "uk",
-        asiento_buscado: "C3",
-        asiento_ofrecido: "D4",
-      },
-      {
-        id_vuelo: "FR6791",
-        fecha_vuelo: "2024-11-22",
-        origen: "es",
-        destino: "ma",
-        asiento_buscado: "DFB",
-        asiento_ofrecido: "HDG",
-      },
-      {
-        id_vuelo: "FR1234",
-        fecha_vuelo: "2024-12-15",
-        origen: "fr",
-        destino: "it",
-        asiento_buscado: "A1",
-        asiento_ofrecido: "B2",
-      },
-      {
-        id_vuelo: "FR5678",
-        fecha_vuelo: "2025-01-10",
-        origen: "de",
-        destino: "uk",
-        asiento_buscado: "C3",
-        asiento_ofrecido: "D4",
-      },
-      // Agrega más vuelos si lo deseas
-    ];
-
-    // Referencias
-    const modal = document.getElementById("dataModal");
-    const openModalButton = document.getElementById("openModal");
-    const closeModalButton = document.getElementById("closeModal");
-    const flightsContainer = document.getElementById("flightsContainer");
-
-    // Función para llenar el modal con vuelos
-    function populateModal(flights) {
-      flightsContainer.innerHTML = ""; // Limpiar contenido previo
-
-      flights.forEach(flight => {
-        // Crear contenedor de cada vuelo
-        const flightDiv = document.createElement("div");
-        flightDiv.classList.add("flight-container-existing");
-
-        // Título del vuelo
-        const title = document.createElement("h3");
-        title.textContent = flight.id_vuelo;
-        flightDiv.appendChild(title);
-
-        // Fecha del vuelo
-        const date = document.createElement("p");
-        date.textContent = `Fecha del vuelo: ${flight.fecha_vuelo}`;
-        flightDiv.appendChild(date);
-
-        // Banderas de origen y destino
-        const flagsContainer = document.createElement("div");
-        flagsContainer.classList.add("flags-container-existing");
-
-        const originFlag = document.createElement("img");
-        originFlag.classList.add("flag-existing");
-        originFlag.src = `https://flagcdn.com/w320/${flight.origen}.png`;
-        flagsContainer.appendChild(originFlag);
-
-        const line = document.createElement("div");
-        line.classList.add("line-existing");
-        flagsContainer.appendChild(line);
-
-        const destinationFlag = document.createElement("img");
-        destinationFlag.classList.add("flag-existing");
-        destinationFlag.src = `https://flagcdn.com/w320/${flight.destino}.png`;
-        flagsContainer.appendChild(destinationFlag);
-
-        flightDiv.appendChild(flagsContainer);
-
-        // Detalles de los asientos
-        const details = document.createElement("div");
-        details.classList.add("details-existing");
-        details.innerHTML = `Busca: ${flight.asiento_buscado}<br>Ofrece: ${flight.asiento_ofrecido}`;
-        flightDiv.appendChild(details);
-
-        // Agregar contenedor del vuelo al modal
-        flightsContainer.appendChild(flightDiv);
-      });
-    }
-
-    // Abrir el modal
-    openModalButton.addEventListener("click", () => {
-      populateModal(flights); // Llenar el modal con datos
-      modal.style.display = "flex";
-    });
-
-    // Cerrar el modal
-    closeModalButton.addEventListener("click", () => {
-      modal.style.display = "none";
-    });
-
-    // Cerrar al hacer clic fuera del contenido
-    window.addEventListener("click", (event) => {
-      if (event.target === modal) {
-        modal.style.display = "none";
-      }
-    });
-  </script>
 </body>
+
 </html>

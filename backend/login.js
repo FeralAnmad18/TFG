@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
           let password = document.getElementById("password").value;
           const account = new ManageAccount();
           let login = account.authenticate(email, password);
-          if (login) {
+          if (!login) {
             mostrarMensaje(Constantes.LOGIN_OK)
           } else {
             mostrarMensaje(Constantes.LOGIN_NOT_OK)

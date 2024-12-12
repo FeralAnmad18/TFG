@@ -3,6 +3,7 @@ import { Constantes } from '../backend/constantes.js';
 import { DateManager } from './dateManager.js';
 
 const account = new ManageAccount();
+let contador_notificaciones = 0;
 
 
 const modal = document.getElementById("dataModal");
@@ -10,6 +11,22 @@ const closeModalButton = document.getElementById("closeModal");
 const flightsContainer = document.getElementById("flightsContainer");
 
 document.addEventListener("DOMContentLoaded", () => {
+    let notis_A = document.getElementById("notis_A")
+    account.getNotisByUserID().then((documentos) => {
+        console.log("Documentos obtenidos:", documentos);
+        documentos.forEach((documento, index) => {
+            // Verificamos si es el último documento
+            if (documento.leido === false) {
+                contador_notificaciones++;
+            }
+            
+            if (index === documentos.length - 1) {
+              console.log("Este es el último documento:", documento);
+              console.log("numero de notis: ", contador_notificaciones)
+              notis_A.innerText += " ("+contador_notificaciones+")"
+            }
+          });
+    });
 
     let flightInput = document.getElementById("flight");
     let flightBtn = document.getElementById("flight_btn");
@@ -20,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let logout = document.getElementById("logout")
     let mis_cambios = document.getElementById("mis_cambios")
     let notis = document.getElementById("notis")
+    
 
     if (userSessionID === null) {
         flightInput.disabled = true
@@ -43,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         mis_cambios.style.display = "block"
         notis.style.visibility = "visible"
         notis.style.display = "block"
+        
     }
 
     logout.addEventListener('click', function () {

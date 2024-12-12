@@ -26,13 +26,9 @@ export class ManageAccount {
       .then((_) => {
         this.insertUserData(email, username, id)
         generateSession(username, id)
-        // // Corrección de typo
-        // Mostrar alerta de registro exitoso
-        alert("Registro exitoso. Serás redirigido a la página de inicio de sesión.");
       })
       .catch((error) => {
         console.error(error.message);
-        // Mostrar alerta de error de registro
         alert("Error al registrar: " + error.message);
       });
   }
@@ -41,13 +37,10 @@ export class ManageAccount {
     signInWithEmailAndPassword(auth, email, password)
       .then((_) => {
         obtainUserData(email)
-        //window.location.href = "../index.html";
-        // Mostrar alerta de inicio de sesión exitoso
         return true
       })
       .catch((error) => {
         console.error(error.message);
-        // Mostrar alerta de error de inicio de sesión
         return false
       });
   }
@@ -149,11 +142,11 @@ export class ManageAccount {
         querySnapshot.forEach((doc) => {
           docsArray.push({ id: doc.id, ...doc.data() });
         });
-        return docsArray; // Devuelve el array de documentos
+        return docsArray;
       })
       .catch((error) => {
         console.error("Error obteniendo documentos: ", error);
-        return []; // En caso de error, devuelve un array vacío
+        return [];
       });
   }
 
@@ -170,11 +163,11 @@ export class ManageAccount {
         querySnapshot.forEach((doc) => {
           docsArray.push({ id: doc.id, ...doc.data() });
         });
-        return docsArray; // Devuelve el array de documentos
+        return docsArray;
       })
       .catch((error) => {
         console.error("Error obteniendo documentos: ", error);
-        return []; // En caso de error, devuelve un array vacío
+        return [];
       });
   }
 
@@ -191,11 +184,11 @@ export class ManageAccount {
         querySnapshot.forEach((doc) => {
           docsArray.push({ id: doc.id, ...doc.data() });
         });
-        return docsArray; // Devuelve el array de documentos
+        return docsArray;
       })
       .catch((error) => {
         console.error("Error obteniendo documentos: ", error);
-        return []; // En caso de error, devuelve un array vacío
+        return [];
       });
   }
 
@@ -239,7 +232,7 @@ export class ManageAccount {
         });
        docsArray.forEach(element => {
         this.cancelOptionRequest(element)
-       });; // Devuelve el array de documentos
+       });
       })
       .catch((error) => {
         console.error("Error obteniendo documentos: ", error);
@@ -367,7 +360,7 @@ export class ManageAccount {
         querySnapshot.forEach((doc) => {
           docsArray.push({ id: doc.id, ...doc.data() });
         });
-        return docsArray; // Devuelve el array de documentos
+        return docsArray;
       })
       .catch((error) => {
         console.error("Error obteniendo documentos: ", error);
@@ -387,7 +380,7 @@ export class ManageAccount {
         querySnapshot.forEach((doc) => {
           docsArray.push({ id: doc.id, ...doc.data() });
         });
-        return docsArray; // Devuelve el array de documentos
+        return docsArray;
       })
       .catch((error) => {
         console.error("Error obteniendo documentos: ", error);
@@ -437,7 +430,7 @@ function obtainUserData(email) {
 
   getDoc(docRef)
     .then((docSnap) => {
-      if (docSnap.exists()) {  // Verificar si el documento existe
+      if (docSnap.exists()) {
         generateSession(docSnap.data().username, docSnap.data().id_usuario)
         window.location.href = "../index.html";
       } else {
@@ -451,10 +444,10 @@ function obtainUserData(email) {
 
 function mostrarMensaje(textoMensaje) {
   const mensaje = document.getElementById('mensajeFlotante');
-  mensaje.style.opacity = '1'; // Muestra el mensaje
+  mensaje.style.opacity = '1';
   mensaje.innerText = textoMensaje
   setTimeout(() => {
-    mensaje.style.opacity = '0'; // Oculta el mensaje después de 5 segundos
+    mensaje.style.opacity = '0';
   }, 5000);
 }
 

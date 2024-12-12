@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
     account.getNotisByUserID().then((documentos) => {
         console.log("Documentos obtenidos:", documentos);
         documentos.forEach((documento, index) => {
-            // Verificamos si es el último documento
             if (documento.leido === false) {
                 contador_notificaciones++;
             }
@@ -79,12 +78,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.querySelectorAll("input:disabled").forEach((input) => {
-        // Agrega un evento para cuando el mouse pase por encima del input
         input.addEventListener("mouseenter", () => {
             input.style.cursor = "not-allowed";
         });
-
-        // Opcional: restablece el cursor cuando el mouse salga del input
         input.addEventListener("mouseleave", () => {
             input.style.cursor = "default";
         });
@@ -106,11 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function obtainFlightByIDandDate(id, date) {
-    // Realizar la solicitud
-    // Obtén el elemento de carga
     document.getElementById('loader').style.visibility = 'visible';
 
-    // Muestra el loader
     loader.style.display = 'block';
     let options = {
         method: 'GET',
@@ -131,20 +124,17 @@ function obtainFlightByIDandDate(id, date) {
             return response.json();
         })
         .then(data => {
-            // Procesa los datos de la API aquí
             setTimeout(5000)
             document.getElementById('loader').style.visibility = 'hidden';
             console.log("Datos de la API:", data);
             fillFlagModal(data, date, id)
         })
         .catch(error => {
-            // Maneja cualquier error
             console.error("Error al hacer la solicitud:", error);
         });
 }
 
 function obtainDatesByFlightByID(id) {
-    // Realizar la solicitud
     let options = {
         method: 'GET',
         headers: {
@@ -164,29 +154,25 @@ function obtainDatesByFlightByID(id) {
             return response.json();
         })
         .then(data => {
-            // Procesa los datos de la API aquí
             console.log("Datos de la API:", data[1]);
             showModal(data);
         })
         .catch(error => {
-            // Maneja cualquier error
             console.error("Error al hacer la solicitud:", error);
         });
 }
 
-// Función para mostrar el modal
 function showModal(data) {
     const modal = document.getElementById("apiModal");
     let body = document.getElementById("apiModal");
     let title = document.getElementById("apiModal");
     fillDates(data)
-    modal.style.display = "flex"; // Muestra el modal
+    modal.style.display = "flex";
 }
 
 
 const close_button = document.getElementById("close_button");
 
-// Verifica si el botón fue seleccionado correctamente
 if (close_button) {
     close_button.addEventListener("click", (e) => {
         e.preventDefault();
@@ -216,7 +202,7 @@ select_date_btn.addEventListener("click", (e) => {
             if (petitions.length < 1 || petitions[0] == undefined) {
                 mostrarMensaje(Constantes.NO_PETICIONES_INDEX)
             } else {
-                populateModal(petitions); // Llenar el modal con datos
+                populateModal(petitions); 
                 modal.style.display = "flex";
             }
         }, 5000);
@@ -239,9 +225,9 @@ window.addEventListener("click", (event) => {
 
 function closeModal() {
     const modal = document.getElementById("apiModal");
-    modal.style.display = "none"; // Muestra el modal
+    modal.style.display = "none";
     const modalFlag = document.getElementById("flagModal");
-    modalFlag.style.display = "none"; // 
+    modalFlag.style.display = "none";
 }
 
 function fillDates(data) {
@@ -263,7 +249,6 @@ function fillDates(data) {
 
 const close_button_flag = document.getElementById("close_button_flag");
 
-// Verifica si el botón fue seleccionado correctamente
 if (close_button_flag) {
     close_button_flag.addEventListener("click", (e) => {
         e.preventDefault();
@@ -275,7 +260,6 @@ if (close_button_flag) {
 
 const notMyFlight_button = document.getElementById("notMyFlight");
 
-// Verifica si el botón fue seleccionado correctamente
 if (notMyFlight_button) {
     notMyFlight_button.addEventListener("click", (e) => {
         e.preventDefault();
@@ -288,7 +272,6 @@ if (notMyFlight_button) {
 
 const myFlight_button = document.getElementById("myFlight");
 
-// Verifica si el botón fue seleccionado correctamente
 if (myFlight_button) {
     myFlight_button.addEventListener("click", (e) => {
         e.preventDefault();
@@ -339,40 +322,36 @@ function fillFlagModal(data, fecha, id) {
 
     closeModal()
     const modal = document.getElementById("flagModal");
-    modal.style.display = "flex"; // Muestra el modal
+    modal.style.display = "flex";
 }
 
 function mostrarMensaje(textoMensaje) {
     const mensaje = document.getElementById('mensajeFlotante');
-    mensaje.style.opacity = '1'; // Muestra el mensaje
+    mensaje.style.opacity = '1';
     mensaje.innerText = textoMensaje
     setTimeout(() => {
-        mensaje.style.opacity = '0'; // Oculta el mensaje después de 5 segundos
+        mensaje.style.opacity = '0';
     }, 5000);
     closeModal();
 }
 
 function populateModal(petitions) {
-    flightsContainer.innerHTML = ""; // Limpiar contenido previo
+    flightsContainer.innerHTML = "";
     if (petitions != undefined) {
 
 
         petitions.forEach(petition => {
-            // Crear contenedor de cada vuelo
             const flightDiv = document.createElement("div");
             flightDiv.classList.add("flight-container-existing");
 
-            // Título del vuelo
             const title = document.createElement("h3");
             title.textContent = petition.id_vuelo;
             flightDiv.appendChild(title);
 
-            // Fecha del vuelo
             const date = document.createElement("p");
             date.textContent = `Fecha del vuelo: ${petition.fecha_vuelo}`;
             flightDiv.appendChild(date);
 
-            // Banderas de origen y destino
             const flagsContainer = document.createElement("div");
             flagsContainer.classList.add("flags-container-existing");
 
@@ -392,7 +371,6 @@ function populateModal(petitions) {
 
             flightDiv.appendChild(flagsContainer);
 
-            // Detalles de los asientos
             const details = document.createElement("div");
             details.classList.add("details-existing");
             details.innerHTML = `Busca: ${petition.asiento_buscado}<br>Ofrece: ${petition.asiento_ofrecido}`;

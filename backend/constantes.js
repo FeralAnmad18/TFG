@@ -18,6 +18,7 @@ export class Constantes {
     static MENSAJE_PETICION_ACEPTADA = (user) => `${user} ha aceptado tu petición`;
     static MENSAJE_PETICION_RECHAZADA = (user) => `${user} ha rechazado tu petición`;
     static MENSAJE_PETICION_CANCELADA = (user) => `${user} ha cancelado el cambio`;
+    static MENSAJE_PETICION_CREADA = (user) => `${user} ha solicitado un cambio`;
 
     // Método estático opcional para obtener las constantes (no es necesario, pero puede ser útil)
     static obtenerConstante(nombre) {

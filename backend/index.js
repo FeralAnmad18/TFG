@@ -384,10 +384,11 @@ function populateModal(petitions) {
             console.log(JSON.parse(button.id))
             button.addEventListener("click", () => {
                 let result = account.createRequest(JSON.parse(button.id));
-                if (result) {
+                if (result == false) {
                     mostrarMensaje(Constantes.ERROR);
                 } else {
-                    mostrarMensaje(Constantes.PETICION_CANCELADA);
+                    mostrarMensaje(Constantes.PETICION_CREADA);
+                    account.createNotification(Constantes.MENSAJE_PETICION_CREADA(sessionStorage.getItem("username")), petition.id_usuario)
                 }
 
             })

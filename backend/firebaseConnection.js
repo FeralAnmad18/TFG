@@ -123,9 +123,11 @@ export class ManageAccount {
         setTimeout(() => {
           window.location.href = "../index.html";
         }, 5000);
+        
       })
       .catch((error) => {
         console.error("Error al añadir la peticion de cambio: ", error);
+        return false
       });
   }
 

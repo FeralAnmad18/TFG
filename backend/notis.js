@@ -48,6 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
         notis.style.visibility = "visible"
         notis.style.display = "block"
     }
+    logout.addEventListener('click', function () {
+
+
+        account.signOutNotIndex();
+        sessionStorage.clear()
+    })
+
     let all_notis = [];
     account.getNotisByUserID().then((documentos) => {
         console.log("Documentos obtenidos:", documentos);
@@ -99,7 +106,7 @@ function fillTable(data) {
             icon.src = "../images/unread.png";
         }
 
-        icon.alt = "Estado de lectura"; 
+        icon.alt = "Estado de lectura";
         icon.style.width = "20px";
         icon.style.height = "20px";
         iconCell.appendChild(icon);
@@ -141,6 +148,10 @@ function fillTable(data) {
 
     tabla.appendChild(tbody);
     container.appendChild(tabla);
+
+    container.style.maxHeight = "400px"; // Máxima altura del contenedor
+    container.style.overflowY = "auto";  // Habilitar el scroll vertical
+    container.style.padding = "10px"; // Asegura que haya un pequeño relleno
 }
 
 function readNotification(notificacion) {
